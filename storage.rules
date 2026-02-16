@@ -1,0 +1,26 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email in ['admin@covermangahd.com'];
+    }
+
+    function isValidCategoryPath(path) {
+      return path.matches('^(portadas|separadores|cubrepolvos)/.*');
+    }
+
+    match /{allPaths=**} {
+      allow read: if true;
+    }
+
+    match /{category}/{fileName} {
+      allow write: if isAdmin()
+        && isValidCategoryPath(category + '/' + fileName)
+        && request.resource != null
+        && request.resource.size < 15 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

@@ -203,10 +203,10 @@
                     
                     <!-- Selector de método de subida -->
                     <div class="upload-options">
-                        <button type="button" class="upload-option-btn active" onclick="showUploadSection('url')">
+                        <button type="button" class="upload-option-btn active" onclick="showUploadSection('url', this)">
                             🌐 Usar URL Externa
                         </button>
-                        <button type="button" class="upload-option-btn" onclick="showUploadSection('storage')">
+                        <button type="button" class="upload-option-btn" onclick="showUploadSection('storage', this)">
                             📤 Subir Archivo
                         </button>
                     </div>
@@ -328,23 +328,23 @@
     </footer>
 
     <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
     <script src="firebase-config.js"></script>
+    <script src="security-utils.js"></script>
+    <script src="download-utils.js"></script>
 
     <script>
         // Verificar autenticación
-        function checkAuth() {
-            const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
-            if (!isAuthenticated) {
-                window.location.href = 'index.html';
-            }
+        async function checkAuth() {
+            return ensureAdminAccessOrRedirect();
         }
 
         // Logout
-        function logoutAdmin() {
-            sessionStorage.removeItem('adminAuthenticated');
+        async function logoutAdmin() {
+            await logoutAdminSession();
             window.location.href = 'index.html';
         }
 
@@ -354,7 +354,7 @@
         });
 
         // Cambiar entre métodos de subida
-        function showUploadSection(section) {
+        function showUploadSection(section, buttonElement) {
             document.querySelectorAll('.upload-option-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -362,7 +362,9 @@
                 sec.classList.remove('active');
             });
             
-            event.target.classList.add('active');
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
             document.getElementById(section + 'Section').classList.add('active');
         }
 
@@ -370,16 +372,21 @@
         document.getElementById('addImageForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const url = document.getElementById('imageUrl').value;
-            const title = document.getElementById('imageTitle').value;
-            const category = document.getElementById('imageCategory').value;
-            const series = document.getElementById('imageSeries').value;
-            const volume = document.getElementById('imageVolume').value;
+            const url = sanitizeImageUrl(document.getElementById('imageUrl').value);
+            const title = sanitizeText(document.getElementById('imageTitle').value, 120);
+            const category = sanitizeCategory(document.getElementById('imageCategory').value);
+            const series = sanitizeText(document.getElementById('imageSeries').value, 120);
+            const volume = sanitizeText(document.getElementById('imageVolume').value, 20);
             const featured = document.getElementById('featuredImage').checked;
 
             // Validar URL
-            if (!url.match(/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i)) {
+            if (!url || !url.match(/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i)) {
                 alert('⚠️ La URL debe ser una imagen (jpg, png, gif, webp)');
+                return;
+            }
+
+            if (!category || !title) {
+                alert('⚠️ Completa los datos requeridos correctamente');
                 return;
             }
 
@@ -410,15 +417,33 @@
             e.preventDefault();
 
             const file = document.getElementById('imageFile').files[0];
-            const title = document.getElementById('fileTitle').value;
-            const category = document.getElementById('fileCategory').value;
-            const series = document.getElementById('fileSeries').value;
-            const volume = document.getElementById('fileVolume').value;
+            const title = sanitizeText(document.getElementById('fileTitle').value, 120);
+            const category = sanitizeCategory(document.getElementById('fileCategory').value);
+            const series = sanitizeText(document.getElementById('fileSeries').value, 120);
+            const volume = sanitizeText(document.getElementById('fileVolume').value, 20);
             const featured = document.getElementById('fileFeatured').checked;
 
             const statusDiv = document.getElementById('uploadStatus');
             statusDiv.innerHTML = '⏳ Subiendo archivo...';
             statusDiv.style.color = 'blue';
+
+            if (!file || !file.type.startsWith('image/')) {
+                statusDiv.innerHTML = '❌ Selecciona un archivo de imagen válido.';
+                statusDiv.style.color = 'red';
+                return;
+            }
+
+            if (file.size > 15 * 1024 * 1024) {
+                statusDiv.innerHTML = '❌ La imagen excede 15MB.';
+                statusDiv.style.color = 'red';
+                return;
+            }
+
+            if (!category || !title) {
+                statusDiv.innerHTML = '❌ Completa los datos requeridos correctamente.';
+                statusDiv.style.color = 'red';
+                return;
+            }
 
             try {
                 // Subir imagen a Firebase Storage
@@ -557,34 +582,67 @@
                     return;
                 }
 
-                let html = '';
+                imagesList.innerHTML = '';
                 snapshot.forEach(doc => {
-                    const image = doc.data();
-                    html += `
-                        <div class="image-item">
-                            <img src="${image.url}" alt="${image.title}" class="image-preview" 
-                                 onerror="this.src='https://via.placeholder.com/80x80?text=Error'">
-                            <div class="image-info">
-                                <h4>${image.title} ${image.featured ? '<span class="featured-badge">Destacada</span>' : ''}</h4>
-                                <p><strong>Categoría:</strong> ${image.category} | 
-                                   <strong>Serie:</strong> ${image.series || 'N/A'} | 
-                                   <strong>Volumen:</strong> ${image.volume || 'N/A'}</p>
-                                <p><strong>Fecha:</strong> ${image.timestamp?.toDate().toLocaleDateString() || 'N/A'} | 
-                                   <strong>Tipo:</strong> ${image.type || 'url'}</p>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="toggle-featured" onclick="toggleFeatured('${doc.id}', ${image.featured})">
-                                    ${image.featured ? '❌ Quitar Destacado' : '⭐ Destacar'}
-                                </button>
-                                <button class="delete-btn" onclick="deleteImage('${doc.id}', '${image.url}', '${image.type}')">
-                                    🗑️ Eliminar
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
+                    const image = sanitizeImageRecord({ id: doc.id, ...doc.data() });
+                    if (!image.url) return;
 
-                imagesList.innerHTML = html;
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'image-item';
+
+                    const preview = document.createElement('img');
+                    preview.src = image.url;
+                    preview.alt = image.title;
+                    preview.className = 'image-preview';
+                    preview.onerror = function() {
+                        this.src = 'https://via.placeholder.com/80x80?text=Error';
+                    };
+
+                    const info = document.createElement('div');
+                    info.className = 'image-info';
+
+                    const title = document.createElement('h4');
+                    title.textContent = image.title;
+                    if (image.featured) {
+                        const badge = document.createElement('span');
+                        badge.className = 'featured-badge';
+                        badge.textContent = 'Destacada';
+                        title.appendChild(document.createTextNode(' '));
+                        title.appendChild(badge);
+                    }
+
+                    const meta = document.createElement('p');
+                    meta.textContent = `Categoría: ${image.category} | Serie: ${image.series || 'N/A'} | Volumen: ${image.volume || 'N/A'}`;
+
+                    const dateLine = document.createElement('p');
+                    const dateValue = image.timestamp?.toDate?.().toLocaleDateString() || 'N/A';
+                    dateLine.textContent = `Fecha: ${dateValue} | Tipo: ${image.type || 'url'}`;
+
+                    info.appendChild(title);
+                    info.appendChild(meta);
+                    info.appendChild(dateLine);
+
+                    const actions = document.createElement('div');
+                    actions.className = 'action-buttons';
+
+                    const featuredButton = document.createElement('button');
+                    featuredButton.className = 'toggle-featured';
+                    featuredButton.textContent = image.featured ? '❌ Quitar Destacado' : '⭐ Destacar';
+                    featuredButton.addEventListener('click', () => toggleFeatured(doc.id, image.featured));
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'delete-btn';
+                    deleteButton.textContent = '🗑️ Eliminar';
+                    deleteButton.addEventListener('click', () => deleteImage(doc.id, image.url, image.type));
+
+                    actions.appendChild(featuredButton);
+                    actions.appendChild(deleteButton);
+
+                    wrapper.appendChild(preview);
+                    wrapper.appendChild(info);
+                    wrapper.appendChild(actions);
+                    imagesList.appendChild(wrapper);
+                });
             } catch (error) {
                 console.error('Error cargando gestión de imágenes:', error);
                 document.getElementById('imagesList').innerHTML = '<div class="loading">Error cargando imágenes</div>';
@@ -618,8 +676,10 @@
         }
 
         // Inicializar
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
+        document.addEventListener('DOMContentLoaded', async function() {
+            const canContinue = await checkAuth();
+            if (!canContinue) return;
+
             loadStats();
             loadImagesManagement();
             

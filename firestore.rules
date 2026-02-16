@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email in ['admin@covermangahd.com'];
+    }
+
+    function isValidCategory(category) {
+      return category in ['portadas', 'separadores', 'cubrepolvos'];
+    }
+
+    function isValidImagePayload(data) {
+      return data.keys().hasOnly([
+          'url', 'title', 'category', 'series', 'volume', 'featured', 'timestamp', 'type', 'fileName'
+        ])
+        && data.url is string
+        && data.url.matches('^https?://.*')
+        && data.title is string
+        && data.title.size() > 0
+        && data.title.size() <= 120
+        && isValidCategory(data.category)
+        && (!('series' in data) || data.series is string)
+        && (!('volume' in data) || data.volume is string || data.volume is number)
+        && (!('featured' in data) || data.featured is bool)
+        && (!('type' in data) || data.type in ['url', 'storage']);
+    }
+
+    match /imagenes/{imageId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidImagePayload(request.resource.data);
+      allow delete: if isAdmin();
+    }
+  }
+}

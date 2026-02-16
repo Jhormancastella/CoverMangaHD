@@ -64,6 +64,9 @@
             <div id="loginForm" class="login-form">
                 <h2>🔐 Acceso Administración</h2>
                 <div class="form-group">
+                    <input type="email" id="adminEmail" placeholder="Correo de administrador">
+                </div>
+                <div class="form-group">
                     <input type="password" id="adminPassword" placeholder="Contraseña de administrador">
                 </div>
                 <button class="submit-btn" onclick="loginAdmin()">Ingresar</button>
@@ -72,9 +75,12 @@
     </div>
 
     <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
+    <script src="security-utils.js"></script>
+    <script src="download-utils.js"></script>
 
     <script>
         // Navegación móvil
@@ -89,14 +95,18 @@
 
         function closeAdminModal() {
             document.getElementById('adminModal').style.display = 'none';
+            document.getElementById('adminEmail').value = '';
             document.getElementById('adminPassword').value = '';
         }
 
-        function loginAdmin() {
+        async function loginAdmin() {
+            const email = document.getElementById('adminEmail').value;
             const password = document.getElementById('adminPassword').value;
-            if (password === ADMIN_PASSWORD) {
+            try {
+                await signInAdmin(email, password);
                 window.location.href = 'admin.html';
-            } else {
+            } catch (error) {
+                console.error('Error de acceso admin:', error);
                 alert('❌ Contraseña incorrecta');
             }
         }
@@ -139,31 +149,65 @@
 
                 gallery.innerHTML = '';
                 snapshot.forEach(doc => {
-                    const image = doc.data();
+                    const image = sanitizeImageRecord(doc.data());
+                    if (!image.url) return;
+
                     const galleryItem = document.createElement('div');
                     galleryItem.className = 'gallery-item';
-                    galleryItem.innerHTML = `
-                        <div class="image-container">
-                            <img src="${image.url}" alt="${image.title}" 
-                                 loading="lazy"
-                                 onload="this.style.opacity='1'"
-                                 onerror="this.src='https://via.placeholder.com/300x400/ecf0f1/7f8c8d?text=Imagen+No+Disponible'; this.style.opacity='1'"
-                                 style="opacity: 0; transition: opacity 0.3s ease">
-                            <div class="image-overlay">
-                                <h3>${image.title}</h3>
-                                ${image.series ? `<p>📚 ${image.series}</p>` : ''}
-                                ${image.volume ? `<p>📖 Vol. ${image.volume}</p>` : ''}
-                                <div class="image-actions">
-                                    <button class="download-btn" onclick="downloadImage('${image.url}', '${image.title}')">
-                                        ⬇️ Descargar
-                                    </button>
-                                    <button class="view-btn" onclick="viewImage('${image.url}')">
-                                        👁️ Ver
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+
+                    const container = document.createElement('div');
+                    container.className = 'image-container';
+
+                    const img = document.createElement('img');
+                    img.src = image.url;
+                    img.alt = image.title;
+                    img.loading = 'lazy';
+                    img.style.opacity = '0';
+                    img.style.transition = 'opacity 0.3s ease';
+                    img.onload = function() { this.style.opacity = '1'; };
+                    img.onerror = function() {
+                        this.src = 'https://via.placeholder.com/300x400/ecf0f1/7f8c8d?text=Imagen+No+Disponible';
+                        this.style.opacity = '1';
+                    };
+
+                    const overlay = document.createElement('div');
+                    overlay.className = 'image-overlay';
+
+                    const title = document.createElement('h3');
+                    title.textContent = image.title;
+                    overlay.appendChild(title);
+
+                    if (image.series) {
+                        const series = document.createElement('p');
+                        series.textContent = `📚 ${image.series}`;
+                        overlay.appendChild(series);
+                    }
+
+                    if (image.volume) {
+                        const volume = document.createElement('p');
+                        volume.textContent = `📖 Vol. ${image.volume}`;
+                        overlay.appendChild(volume);
+                    }
+
+                    const actions = document.createElement('div');
+                    actions.className = 'image-actions';
+
+                    const downloadButton = document.createElement('button');
+                    downloadButton.className = 'download-btn';
+                    downloadButton.textContent = '⬇️ Descargar';
+                    downloadButton.addEventListener('click', () => downloadImage(image.url, image.title));
+
+                    const viewButton = document.createElement('button');
+                    viewButton.className = 'view-btn';
+                    viewButton.textContent = '👁️ Ver';
+                    viewButton.addEventListener('click', () => viewImage(image.url));
+
+                    actions.appendChild(downloadButton);
+                    actions.appendChild(viewButton);
+                    overlay.appendChild(actions);
+                    container.appendChild(img);
+                    container.appendChild(overlay);
+                    galleryItem.appendChild(container);
                     gallery.appendChild(galleryItem);
                 });
 
@@ -182,7 +226,7 @@
                 } else if (error.code === 'unavailable') {
                     errorMessage = 'Error de conexión. Verifica tu internet.';
                 } else {
-                    errorMessage += ': ' + error.message;
+                    errorMessage += ': ' + sanitizeText(error.message || 'Error desconocido', 200);
                 }
                 
                 document.getElementById('portadas-gallery').innerHTML = `
@@ -196,19 +240,14 @@
         }
 
         // Función para descargar imágenes
-        function downloadImage(imageUrl, title) {
+        async function downloadImage(imageUrl, title) {
             try {
-                const link = document.createElement('a');
-                link.href = imageUrl;
-                link.download = `${title.replace(/[^a-z0-9]/gi, '_')}.jpg`;
-                link.target = '_blank';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Mostrar mensaje de éxito
-                showNotification('✅ Descarga iniciada', 'success');
-                
+                const result = await downloadImageWithFallback(imageUrl, title);
+                if (result.method === 'blob') {
+                    showNotification('✅ Descarga iniciada', 'success');
+                } else {
+                    showNotification('ℹ️ Descarga iniciada (modo compatibilidad)', 'info');
+                }
             } catch (error) {
                 console.error('Error descargando imagen:', error);
                 showNotification('❌ Error al descargar la imagen', 'error');
@@ -308,7 +347,7 @@
 
         // Cerrar modal con Escape key
         document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
+            if (event.target !== document.getElementById('adminEmail') && event.target !== document.getElementById('adminPassword') && event.key === 'Escape') {
                 closeAdminModal();
             }
         });

@@ -17,6 +17,29 @@ Explóralo y dime qué te parece.
 
 ---
 
+## Seguridad y configuracion de Admin (actualizado)
+
+Este proyecto ahora usa Firebase Auth para acceder al panel `admin.html`.
+
+1. Crea un usuario admin en Firebase Authentication (Email/Password).
+2. Reemplaza el correo de allowlist en `firebase-config.js`:
+   - `ADMIN_EMAIL_ALLOWLIST = ["tu_correo_admin@dominio.com"]`
+3. Publica reglas de Firestore usando `firestore.rules`.
+4. Publica reglas de Storage usando `storage.rules`.
+
+Reglas recomendadas:
+
+- Lectura publica de imagenes.
+- Escritura solo para usuarios autenticados y autorizados como admin.
+- Validacion de categorias permitidas.
+- Validacion de tamano/tipo MIME en Storage.
+
+## Descarga de imagenes (UX)
+
+El boton de descarga ahora intenta primero descarga real por `blob` (mejor experiencia).
+Si el origen bloquea CORS o no permite blob directo, usa un fallback de enlace directo.
+Esto mejora compatibilidad entre navegadores y distintos hostings de imagenes.
+
 ## ✨ ¿Por qué -CoverManga- ?
 - el nombre directo lo que se quiere logar 
 es que los fans del manga tenga en su mejor estado sus mangas y demas colecciones.
