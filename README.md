@@ -1,12 +1,18 @@
-# 🎴 CoverManga.
+# 🎴 CoverMangaHD.
 
 ## Url
 
-https://jhormancastella.github.io/-CoverManga--/
+<div align="center">
+
+Explóralo y dime qué te parece.
+
+[![Ver CoverMangaHD en Vivo](https://img.shields.io/badge/🎴_Ver_CoverMangaHD_En_Vivo-Click_Aquí-2EA043?style=for-the-badge&logo=google-chrome&logoColor=white)](https://jhormancastella.github.io/CoverMangaHD/)
+</div>
+
 
 ## Portadas + Cubrepolvos y Separadores para Fans del Manga.
 
-**-CoverManga-** es un repositorio el cual no almacena las imagenes 
+**-CoverMangaHD-** es un repositorio el cual no almacena las imagenes 
 **portadas, cubrepolvos y separadores imprimibles** en alta calidad para preservar, restaurar o personalizar tus mangas, manhwas y novelas ligeras. Inspirado en [Mokuton Covers](https://mokuton.com/covers/index.php), pero con mejor organización, visualización interactiva y diseño adaptado a todos los dispositivos.
 
 ---
