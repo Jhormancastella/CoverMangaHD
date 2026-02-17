@@ -40,6 +40,29 @@ El boton de descarga ahora intenta primero descarga real por `blob` (mejor exper
 Si el origen bloquea CORS o no permite blob directo, usa un fallback de enlace directo.
 Esto mejora compatibilidad entre navegadores y distintos hostings de imagenes.
 
+## SEO e indexacion en Google (actualizado)
+
+Archivos SEO agregados al proyecto:
+
+- `robots.txt`
+- `sitemap.xml`
+- Metadatos `title`, `description`, `canonical`, Open Graph y Twitter en paginas publicas
+- Datos estructurados JSON-LD en pagina principal y colecciones
+- `admin.html` marcado con `noindex`
+
+Pasos para completar en Google:
+
+1. Publica/deploya los cambios.
+2. Abre Google Search Console y verifica la propiedad:
+   - `https://jhormancastella.github.io/CoverMangaHD/`
+3. En Search Console, envia este sitemap:
+   - `https://jhormancastella.github.io/CoverMangaHD/sitemap.xml`
+4. Usa "Inspeccion de URL" y solicita indexacion para:
+   - `/`
+   - `/portadas.html`
+   - `/separadores.html`
+   - `/cubrepolvos.html`
+
 ## ✨ ¿Por qué -CoverManga- ?
 - el nombre directo lo que se quiere logar 
 es que los fans del manga tenga en su mejor estado sus mangas y demas colecciones.
