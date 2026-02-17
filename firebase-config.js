@@ -13,7 +13,7 @@ const auth = firebase.auth();
 
 // IMPORTANTE:
 // Reemplaza el correo por tu usuario administrador real en Firebase Auth.
-const ADMIN_EMAIL_ALLOWLIST = ["admin@covermangahd.com"];
+const ADMIN_EMAIL_ALLOWLIST = ["jesusjhorman123@gmail.com"];
 
 function normalizeEmail(email) {
     return String(email || "").trim().toLowerCase();

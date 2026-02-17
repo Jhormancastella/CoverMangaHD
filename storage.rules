@@ -4,7 +4,7 @@ service firebase.storage {
     function isAdmin() {
       return request.auth != null
         && request.auth.token.email != null
-        && request.auth.token.email in ['admin@covermangahd.com'];
+        && request.auth.token.email in ['jesusjhorman123@gmail.com'];
     }
 
     function isValidCategoryPath(path) {
