@@ -4,11 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoverMangaHD | Administracion</title>
+    
+    <!-- SEO Meta Tags -->
     <meta name="description" content="Panel privado de administracion de CoverMangaHD.">
     <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://jhormancastella.github.io/CoverMangaHD/admin.html">
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+    
+    <!-- Favicon -->
     <link rel="icon" href="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" type="image/png">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://firestore.googleapis.com">
+    <link rel="preconnect" href="https://storage.googleapis.com">
+    
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    
+    <!-- Estilos específicos del admin -->
     <style>
         .admin-panel {
             background: var(--card-bg);
@@ -57,6 +77,8 @@
             border-radius: 8px;
             margin-bottom: 10px;
             background: var(--bg-color);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .image-preview {
@@ -69,6 +91,7 @@
         .image-info {
             flex: 1;
             margin: 0 20px;
+            min-width: 200px;
         }
 
         .image-info h4 {
@@ -94,6 +117,7 @@
         .action-buttons {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .toggle-featured {
@@ -104,6 +128,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9em;
+            transition: background 0.3s ease;
         }
 
         .delete-btn {
@@ -114,6 +139,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9em;
+            transition: background 0.3s ease;
         }
 
         .toggle-featured:hover {
@@ -140,6 +166,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .upload-option-btn {
@@ -150,6 +177,8 @@
             cursor: pointer;
             flex: 1;
             text-align: center;
+            transition: all 0.3s ease;
+            min-width: 150px;
         }
 
         .upload-option-btn.active {
@@ -165,27 +194,63 @@
         .upload-section.active {
             display: block;
         }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input,
+        .search-bar select {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .image-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .image-info {
+                margin: 10px 0;
+            }
+            
+            .action-buttons {
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="nav-container">
-            <div class="logo">
-                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" alt="CoverManga" class="logo-img">
+            <div class="logo" onclick="window.location.href='index.html'" role="button" tabindex="0" aria-label="Ir al inicio">
+                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" alt="CoverManga Logo" class="logo-img">
                 <span>CoverManga Admin</span>
             </div>
             
-            <div class="menu-toggle" id="mobile-menu">
+            <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menú" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
             
-            <ul class="nav-menu">
-                <li><a href="index.html">← Volver al Sitio</a></li>
-                <li><button class="admin-btn" onclick="logoutAdmin()">Cerrar Sesión</button></li>
-            </ul>
+            <nav>
+                <ul class="nav-menu" role="menubar">
+                    <li role="none"><a href="index.html" role="menuitem">← Volver al Sitio</a></li>
+                    <li role="none"><button class="admin-btn" onclick="logoutAdmin()" aria-label="Cerrar sesión">Cerrar Sesión</button></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
@@ -325,35 +390,40 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; 2024 Derechos reservados a Jhorman Jesús Castellanos Morales</p>
+            <p>&copy; 2025 Derechos reservados a Jhorman Jesús Castellanos Morales</p>
             <p class="acknowledgments">Panel de administración - CoverManga</p>
         </div>
     </footer>
 
-    <!-- Firebase -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+    
+    <!-- Scripts de la aplicación -->
     <script src="firebase-config.js"></script>
     <script src="security-utils.js"></script>
     <script src="download-utils.js"></script>
+    <script src="js/cache.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/admin-auth.js"></script>
 
+    <!-- Script principal del admin -->
     <script>
         // Verificar autenticación
         async function checkAuth() {
             return ensureAdminAccessOrRedirect();
         }
 
-        // Logout
-        async function logoutAdmin() {
-            await logoutAdminSession();
-            window.location.href = 'index.html';
-        }
-
         // Navegación móvil
-        document.getElementById('mobile-menu').addEventListener('click', function() {
-            document.querySelector('.nav-menu').classList.toggle('active');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        mobileMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            this.setAttribute('aria-expanded', navMenu.classList.contains('active'));
         });
 
         // Cambiar entre métodos de subida
@@ -371,6 +441,96 @@
             document.getElementById(section + 'Section').classList.add('active');
         }
 
+        // Cargar estadísticas
+        async function loadStats() {
+            try {
+                const snapshot = await db.collection('imagenes').get();
+                
+                let portadas = 0, separadores = 0, cubrepolvos = 0, featured = 0;
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.category === 'portadas') portadas++;
+                    else if (data.category === 'separadores') separadores++;
+                    else if (data.category === 'cubrepolvos') cubrepolvos++;
+                    if (data.featured) featured++;
+                });
+
+                document.getElementById('statsContainer').innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${portadas}</div>
+                        <div class="stat-label">Portadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${separadores}</div>
+                        <div class="stat-label">Separadores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${cubrepolvos}</div>
+                        <div class="stat-label">Cubre Polvos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${featured}</div>
+                        <div class="stat-label">Destacados</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+                document.getElementById('statsContainer').innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">-</div>
+                        <div class="stat-label">Error al cargar</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Cargar lista de imágenes
+        async function loadImagesManagement() {
+            try {
+                const snapshot = await db.collection('imagenes')
+                    .orderBy('timestamp', 'desc')
+                    .limit(50)
+                    .get();
+
+                const container = document.getElementById('imagesList');
+                
+                if (snapshot.empty) {
+                    container.innerHTML = '<p style="text-align: center; color: #666;">No hay imágenes registradas</p>';
+                    return;
+                }
+
+                let html = '';
+                snapshot.forEach(doc => {
+                    const data = sanitizeImageRecord({ id: doc.id, ...doc.data() });
+                    html += `
+                        <div class="image-item" data-category="${data.category}">
+                            <img src="${data.url}" alt="${data.title}" class="image-preview" loading="lazy">
+                            <div class="image-info">
+                                <h4>${data.title} ${data.featured ? '<span class="featured-badge">Destacado</span>' : ''}</h4>
+                                <p>Categoría: ${data.category} | Serie: ${data.series || 'N/A'} | Vol: ${data.volume || 'N/A'}</p>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="toggle-featured" onclick="toggleFeatured('${doc.id}', ${!data.featured})">
+                                    ${data.featured ? '⭐ Quitar Destacado' : '☆ Destacar'}
+                                </button>
+                                <button class="delete-btn" onclick="deleteImage('${doc.id}', '${data.url}', '${data.type}')">
+                                    🗑️ Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error cargando imágenes:', error);
+                document.getElementById('imagesList').innerHTML = `
+                    <p style="text-align: center; color: #e74c3c;">Error al cargar imágenes</p>
+                `;
+            }
+        }
+
         // Agregar imagen con URL externa
         document.getElementById('addImageForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -384,12 +544,12 @@
 
             // Validar URL
             if (!url || !url.match(/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i)) {
-                alert('⚠️ La URL debe ser una imagen (jpg, png, gif, webp)');
+                toast.warning('La URL debe ser una imagen (jpg, png, gif, webp)');
                 return;
             }
 
             if (!category || !title) {
-                alert('⚠️ Completa los datos requeridos correctamente');
+                toast.warning('Completa los datos requeridos correctamente');
                 return;
             }
 
@@ -402,16 +562,22 @@
                     volume: volume || '',
                     featured: featured,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    type: 'url' // Para identificar el tipo de subida
+                    type: 'url'
                 });
 
-                alert('✅ Imagen agregada correctamente');
+                toast.success('Imagen agregada correctamente');
                 document.getElementById('addImageForm').reset();
+                
+                // Invalidar caché
+                if (typeof firestoreCache !== 'undefined') {
+                    firestoreCache.invalidateCollection(category);
+                }
+                
                 loadStats();
                 loadImagesManagement();
             } catch (error) {
                 console.error('Error:', error);
-                alert('❌ Error al agregar imagen: ' + error.message);
+                toast.error('Error al agregar imagen: ' + error.message);
             }
         });
 
@@ -467,7 +633,7 @@
                     featured: featured,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     fileName: file.name,
-                    type: 'storage' // Para identificar el tipo de subida
+                    type: 'storage'
                 });
 
                 statusDiv.innerHTML = '✅ Archivo subido correctamente!';
@@ -476,7 +642,12 @@
                 // Limpiar formulario
                 document.getElementById('uploadFileForm').reset();
                 
-                // Recargar lista de archivos
+                // Invalidar caché
+                if (typeof firestoreCache !== 'undefined') {
+                    firestoreCache.invalidateCollection(category);
+                }
+                
+                // Recargar lista
                 loadStats();
                 loadImagesManagement();
                 
@@ -487,6 +658,28 @@
             }
         });
 
+        // Toggle destacado
+        async function toggleFeatured(imageId, featured) {
+            try {
+                await db.collection('imagenes').doc(imageId).update({
+                    featured: featured
+                });
+                
+                toast.success(featured ? 'Imagen destacada' : 'Imagen removida de destacados');
+                
+                // Invalidar caché
+                if (typeof firestoreCache !== 'undefined') {
+                    firestoreCache.clearAll();
+                }
+                
+                loadStats();
+                loadImagesManagement();
+            } catch (error) {
+                console.error('Error:', error);
+                toast.error('Error al actualizar: ' + error.message);
+            }
+        }
+
         // Eliminar imagen
         async function deleteImage(imageId, imageUrl, type) {
             if (!confirm('¿Estás seguro de eliminar esta imagen?')) {
@@ -496,203 +689,59 @@
             try {
                 // Si es de storage, eliminar también del Storage
                 if (type === 'storage') {
-                    const storageRef = firebase.storage().refFromURL(imageUrl);
-                    await storageRef.delete();
+                    try {
+                        const storageRef = firebase.storage().refFromURL(imageUrl);
+                        await storageRef.delete();
+                    } catch (storageError) {
+                        console.warn('No se pudo eliminar del storage:', storageError);
+                    }
                 }
 
                 // Eliminar de Firestore
                 await db.collection('imagenes').doc(imageId).delete();
-                alert('✅ Imagen eliminada correctamente');
+
+                toast.success('Imagen eliminada correctamente');
+                
+                // Invalidar caché
+                if (typeof firestoreCache !== 'undefined') {
+                    firestoreCache.clearAll();
+                }
+                
                 loadStats();
                 loadImagesManagement();
             } catch (error) {
-                console.error('Error eliminando imagen:', error);
-                alert('❌ Error al eliminar imagen: ' + error.message);
+                console.error('Error:', error);
+                toast.error('Error al eliminar: ' + error.message);
             }
         }
 
-        // Alternar destacado
-        async function toggleFeatured(imageId, currentlyFeatured) {
-            try {
-                await db.collection('imagenes').doc(imageId).update({
-                    featured: !currentlyFeatured
-                });
-                loadImagesManagement();
-            } catch (error) {
-                alert('❌ Error al actualizar imagen: ' + error.message);
-            }
-        }
-
-        // Cargar estadísticas
-        async function loadStats() {
-            try {
-                const snapshot = await db.collection('imagenes').get();
-                const stats = {
-                    total: 0,
-                    portadas: 0,
-                    separadores: 0,
-                    cubrepolvos: 0,
-                    featured: 0
-                };
-
-                snapshot.forEach(doc => {
-                    const image = doc.data();
-                    stats.total++;
-                    stats[image.category]++;
-                    if (image.featured) stats.featured++;
-                });
-
-                const statsContainer = document.getElementById('statsContainer');
-                statsContainer.innerHTML = `
-                    <div class="stat-card">
-                        <div class="stat-number">${stats.total}</div>
-                        <div class="stat-label">Total Imágenes</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">${stats.portadas}</div>
-                        <div class="stat-label">Portadas</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">${stats.separadores}</div>
-                        <div class="stat-label">Separadores</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">${stats.cubrepolvos}</div>
-                        <div class="stat-label">Cubre Polvos</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">${stats.featured}</div>
-                        <div class="stat-label">Destacadas</div>
-                    </div>
-                `;
-
-            } catch (error) {
-                console.error('Error cargando estadísticas:', error);
-            }
-        }
-
-        // Cargar gestión de imágenes
-        async function loadImagesManagement() {
-            try {
-                const snapshot = await db.collection('imagenes')
-                    .orderBy('timestamp', 'desc')
-                    .get();
-
-                const imagesList = document.getElementById('imagesList');
-                
-                if (snapshot.empty) {
-                    imagesList.innerHTML = '<div class="loading">No hay imágenes</div>';
-                    return;
-                }
-
-                imagesList.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const image = sanitizeImageRecord({ id: doc.id, ...doc.data() });
-                    if (!image.url) return;
-
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'image-item';
-
-                    const preview = document.createElement('img');
-                    preview.src = image.url;
-                    preview.alt = image.title;
-                    preview.className = 'image-preview';
-                    preview.onerror = function() {
-                        this.src = 'https://via.placeholder.com/80x80?text=Error';
-                    };
-
-                    const info = document.createElement('div');
-                    info.className = 'image-info';
-
-                    const title = document.createElement('h4');
-                    title.textContent = image.title;
-                    if (image.featured) {
-                        const badge = document.createElement('span');
-                        badge.className = 'featured-badge';
-                        badge.textContent = 'Destacada';
-                        title.appendChild(document.createTextNode(' '));
-                        title.appendChild(badge);
-                    }
-
-                    const meta = document.createElement('p');
-                    meta.textContent = `Categoría: ${image.category} | Serie: ${image.series || 'N/A'} | Volumen: ${image.volume || 'N/A'}`;
-
-                    const dateLine = document.createElement('p');
-                    const dateValue = image.timestamp?.toDate?.().toLocaleDateString() || 'N/A';
-                    dateLine.textContent = `Fecha: ${dateValue} | Tipo: ${image.type || 'url'}`;
-
-                    info.appendChild(title);
-                    info.appendChild(meta);
-                    info.appendChild(dateLine);
-
-                    const actions = document.createElement('div');
-                    actions.className = 'action-buttons';
-
-                    const featuredButton = document.createElement('button');
-                    featuredButton.className = 'toggle-featured';
-                    featuredButton.textContent = image.featured ? '❌ Quitar Destacado' : '⭐ Destacar';
-                    featuredButton.addEventListener('click', () => toggleFeatured(doc.id, image.featured));
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.className = 'delete-btn';
-                    deleteButton.textContent = '🗑️ Eliminar';
-                    deleteButton.addEventListener('click', () => deleteImage(doc.id, image.url, image.type));
-
-                    actions.appendChild(featuredButton);
-                    actions.appendChild(deleteButton);
-
-                    wrapper.appendChild(preview);
-                    wrapper.appendChild(info);
-                    wrapper.appendChild(actions);
-                    imagesList.appendChild(wrapper);
-                });
-            } catch (error) {
-                console.error('Error cargando gestión de imágenes:', error);
-                document.getElementById('imagesList').innerHTML = '<div class="loading">Error cargando imágenes</div>';
-            }
-        }
-
-        // Búsqueda y filtrado
-        document.getElementById('searchImages').addEventListener('input', function() {
-            filterImages();
-        });
-
-        document.getElementById('filterCategory').addEventListener('change', function() {
-            filterImages();
-        });
+        // Filtros de búsqueda
+        document.getElementById('searchImages').addEventListener('input', filterImages);
+        document.getElementById('filterCategory').addEventListener('change', filterImages);
 
         function filterImages() {
             const searchTerm = document.getElementById('searchImages').value.toLowerCase();
             const categoryFilter = document.getElementById('filterCategory').value;
             
-            const imageItems = document.querySelectorAll('.image-item');
+            const items = document.querySelectorAll('.image-item');
             
-            imageItems.forEach(item => {
-                const title = item.querySelector('h4').textContent.toLowerCase();
-                const category = item.querySelector('p').textContent;
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const category = item.dataset.category;
                 
-                const matchesSearch = title.includes(searchTerm);
-                const matchesCategory = !categoryFilter || category.includes(categoryFilter);
+                const matchesSearch = text.includes(searchTerm);
+                const matchesCategory = !categoryFilter || category === categoryFilter;
                 
                 item.style.display = (matchesSearch && matchesCategory) ? 'flex' : 'none';
             });
         }
 
         // Inicializar
-        document.addEventListener('DOMContentLoaded', async function() {
-            const canContinue = await checkAuth();
-            if (!canContinue) return;
-
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkAuth();
             loadStats();
             loadImagesManagement();
-            
-            // Escuchar cambios en tiempo real
-            db.collection('imagenes').onSnapshot(() => {
-                loadStats();
-                loadImagesManagement();
-            });
         });
     </script>
 </body>
 </html>
-

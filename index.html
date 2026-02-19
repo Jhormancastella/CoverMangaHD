@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoverMangaHD | Portadas, Cubrepolvos y Separadores de Manga</title>
+    
+    <!-- SEO Meta Tags -->
     <meta name="description" content="Descarga portadas, cubrepolvos y separadores de manga en alta calidad. CoverMangaHD organiza recursos imprimibles para mejorar tu coleccion.">
     <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Jhorman Jesús Castellanos Morales">
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://jhormancastella.github.io/CoverMangaHD/">
+    
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_ES">
     <meta property="og:site_name" content="CoverMangaHD">
@@ -14,12 +21,36 @@
     <meta property="og:description" content="Recursos de manga en alta calidad para descargar: portadas, cubrepolvos y separadores.">
     <meta property="og:url" content="https://jhormancastella.github.io/CoverMangaHD/">
     <meta property="og:image" content="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png">
+    
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="CoverMangaHD">
     <meta name="twitter:description" content="Portadas, cubrepolvos y separadores de manga en alta calidad.">
     <meta name="twitter:image" content="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="CoverManga">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png">
+    
+    <!-- Preconnect para optimización -->
+    <link rel="preconnect" href="https://firestore.googleapis.com">
+    <link rel="preconnect" href="https://storage.googleapis.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    
+    <!-- Estilos CSS -->
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png " type="image/png">
+    <link rel="stylesheet" href="css/carousel.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    
+    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -43,492 +74,31 @@
       "logo": "https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png"
     }
     </script>
-    <style>
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border-radius: 15px;
-            margin-bottom: 40px;
-        }
-
-        .hero h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .hero p {
-            font-size: 1.2em;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .slider-section {
-            margin-bottom: 50px;
-        }
-
-        .slider-container {
-            position: relative;
-            margin: 20px 0;
-        }
-
-        .slider {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding: 10px 0;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .slider::-webkit-scrollbar {
-            display: none;
-        }
-
-        .slider-item {
-            flex: 0 0 auto;
-            width: 280px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .slider-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .slider-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .slider-item .info {
-            padding: 15px;
-        }
-
-        .slider-item h3 {
-            margin: 0 0 8px 0;
-            font-size: 1.1em;
-            color: var(--text-color);
-        }
-
-        .slider-item p {
-            margin: 0;
-            font-size: 0.9em;
-            color: #666;
-        }
-
-        /* Spinner de carga para carruseles */
-        .slider-loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .slider-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-
-        .slider-loading-text {
-            color: var(--text-color);
-            font-size: 1em;
-        }
-
-        /* Indicadores de puntos */
-        .slider-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
-        }
-
-        .slider-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ddd;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .slider-dot.active {
-            background: var(--primary-color);
-            transform: scale(1.2);
-        }
-
-        .slider-dot:hover {
-            background: var(--secondary-color);
-        }
-
-        /* Navegación automática */
-        .slider-nav-auto {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        .auto-nav-btn {
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            margin: 0 5px;
-        }
-
-        .auto-nav-btn:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .auto-nav-btn.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .no-images-slider {
-            text-align: center;
-            padding: 40px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            color: #666;
-        }
-
-        .category-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-            font-size: 1.1em;
-        }
-
-        .category-link:hover {
-            color: var(--secondary-color);
-            text-decoration: underline;
-        }
-
-        /* Modal de Vista Previa */
-        .preview-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .preview-modal.active {
-            display: flex;
-        }
-
-        .preview-content {
-            background: white;
-            border-radius: 15px;
-            max-width: 90%;
-            max-height: 90%;
-            width: 800px;
-            position: relative;
-            animation: scaleIn 0.3s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            background: var(--card-bg);
-        }
-
-        .preview-title {
-            margin: 0;
-            color: var(--text-color);
-            font-size: 1.3em;
-        }
-
-        .preview-close {
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #666;
-            transition: color 0.3s;
-        }
-
-        .preview-close:hover {
-            color: var(--accent-color);
-        }
-
-        .preview-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .preview-image-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: #f8f9fa;
-        }
-
-        .preview-image {
-            max-width: 100%;
-            max-height: 500px;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .preview-info {
-            width: 300px;
-            padding: 25px;
-            background: white;
-            border-left: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .preview-details h3 {
-            margin: 0 0 15px 0;
-            color: var(--text-color);
-            font-size: 1.4em;
-        }
-
-        .preview-meta {
-            margin-bottom: 25px;
-        }
-
-        .preview-meta p {
-            margin: 8px 0;
-            color: #666;
-            font-size: 1em;
-        }
-
-        .preview-meta strong {
-            color: var(--text-color);
-        }
-
-        .preview-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: auto;
-        }
-
-        .preview-btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .preview-btn.download {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .preview-btn.download:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .preview-btn.view-original {
-            background: #8e44ad;
-            color: white;
-        }
-
-        .preview-btn.view-original:hover {
-            background: #9b59b6;
-            transform: translateY(-2px);
-        }
-
-        .preview-btn.close-preview {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .preview-btn.close-preview:hover {
-            background: #c0392b;
-            transform: translateY(-2px);
-        }
-
-        .preview-navigation {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 20px;
-            background: var(--card-bg);
-            border-top: 1px solid #eee;
-        }
-
-        .nav-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-btn:hover {
-            background: var(--secondary-color);
-        }
-
-        .nav-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .image-counter {
-            color: var(--text-color);
-            font-weight: 600;
-            align-self: center;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2em;
-            }
-            
-            .hero p {
-                font-size: 1em;
-            }
-            
-            .slider-item {
-                width: 250px;
-            }
-            
-            .slider-indicators {
-                flex-wrap: wrap;
-            }
-
-            .preview-content {
-                flex-direction: column;
-                max-width: 95%;
-                max-height: 95%;
-            }
-
-            .preview-body {
-                flex-direction: column;
-            }
-
-            .preview-info {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid #eee;
-            }
-
-            .preview-image {
-                max-height: 300px;
-            }
-
-            .preview-navigation {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .nav-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes scaleIn {
-            from { 
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to { 
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .slider-item {
-            animation: fadeIn 0.5s ease;
-        }
-    </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="nav-container">
-            <div class="logo" onclick="handleLogoClick()" style="cursor: pointer;">
-                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png " alt="CoverManga" class="logo-img">
+            <div class="logo" onclick="window.location.href='index.html'" role="button" tabindex="0" aria-label="Ir al inicio">
+                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" alt="CoverManga Logo" class="logo-img">
                 <span>CoverManga</span>
             </div>
             
-            <div class="menu-toggle" id="mobile-menu">
+            <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menú" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
             
-            <ul class="nav-menu">
-                <li><a href="index.html" class="active">Inicio</a></li>
-                <li><a href="portadas.html">Portadas</a></li>
-                <li><a href="separadores.html">Separadores</a></li>
-                <li><a href="cubrepolvos.html">Cubre Polvos</a></li>
-                <li><button class="admin-btn" onclick="openAdminModal()">AD</button></li>
-            </ul>
+            <nav>
+                <ul class="nav-menu" role="menubar">
+                    <li role="none"><a href="index.html" class="active" role="menuitem">Inicio</a></li>
+                    <li role="none"><a href="portadas.html" role="menuitem">Portadas</a></li>
+                    <li role="none"><a href="separadores.html" role="menuitem">Separadores</a></li>
+                    <li role="none"><a href="cubrepolvos.html" role="menuitem">Cubre Polvos</a></li>
+                    <li role="none"><button class="admin-btn" onclick="openAdminModal()" aria-label="Panel de administración">AD</button></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
@@ -542,54 +112,54 @@
             </section>
 
             <!-- Carrusel Portadas -->
-            <section class="slider-section">
+            <section class="slider-section" aria-label="Portadas destacadas">
                 <h2 class="section-title">🎴 Portadas Destacadas</h2>
                 <div class="slider-container">
-                    <div class="slider" id="portadas-slider">
+                    <div class="slider" id="portadas-slider" role="region" aria-label="Carrusel de portadas">
                         <div class="slider-loading">
                             <div class="slider-spinner"></div>
                             <p class="slider-loading-text">Cargando portadas...</p>
                         </div>
                     </div>
-                    <div class="slider-indicators" id="portadas-indicators"></div>
+                    <div class="slider-indicators" id="portadas-indicators" role="tablist" aria-label="Indicadores de portadas"></div>
                     <div class="slider-nav-auto">
-                        <button class="auto-nav-btn" onclick="toggleAutoScroll('portadas')">⏸️ Pausar</button>
+                        <button class="auto-nav-btn active" onclick="toggleAutoScroll('portadas')" aria-label="Pausar carrusel">⏸️ Pausar</button>
                     </div>
                 </div>
                 <a href="portadas.html" class="category-link">Ver todas las portadas →</a>
             </section>
 
             <!-- Carrusel Separadores -->
-            <section class="slider-section">
+            <section class="slider-section" aria-label="Separadores populares">
                 <h2 class="section-title">📑 Separadores Populares</h2>
                 <div class="slider-container">
-                    <div class="slider" id="separadores-slider">
+                    <div class="slider" id="separadores-slider" role="region" aria-label="Carrusel de separadores">
                         <div class="slider-loading">
                             <div class="slider-spinner"></div>
                             <p class="slider-loading-text">Cargando separadores...</p>
                         </div>
                     </div>
-                    <div class="slider-indicators" id="separadores-indicators"></div>
+                    <div class="slider-indicators" id="separadores-indicators" role="tablist" aria-label="Indicadores de separadores"></div>
                     <div class="slider-nav-auto">
-                        <button class="auto-nav-btn" onclick="toggleAutoScroll('separadores')">⏸️ Pausar</button>
+                        <button class="auto-nav-btn active" onclick="toggleAutoScroll('separadores')" aria-label="Pausar carrusel">⏸️ Pausar</button>
                     </div>
                 </div>
                 <a href="separadores.html" class="category-link">Ver todos los separadores →</a>
             </section>
 
             <!-- Carrusel Cubre Polvos -->
-            <section class="slider-section">
+            <section class="slider-section" aria-label="Cubre polvos destacados">
                 <h2 class="section-title">🛡️ Cubre Polvos Destacados</h2>
                 <div class="slider-container">
-                    <div class="slider" id="cubrepolvos-slider">
+                    <div class="slider" id="cubrepolvos-slider" role="region" aria-label="Carrusel de cubre polvos">
                         <div class="slider-loading">
                             <div class="slider-spinner"></div>
                             <p class="slider-loading-text">Cargando cubre polvos...</p>
                         </div>
                     </div>
-                    <div class="slider-indicators" id="cubrepolvos-indicators"></div>
+                    <div class="slider-indicators" id="cubrepolvos-indicators" role="tablist" aria-label="Indicadores de cubre polvos"></div>
                     <div class="slider-nav-auto">
-                        <button class="auto-nav-btn" onclick="toggleAutoScroll('cubrepolvos')">⏸️ Pausar</button>
+                        <button class="auto-nav-btn active" onclick="toggleAutoScroll('cubrepolvos')" aria-label="Pausar carrusel">⏸️ Pausar</button>
                     </div>
                 </div>
                 <a href="cubrepolvos.html" class="category-link">Ver todos los cubre polvos →</a>
@@ -597,13 +167,14 @@
         </div>
     </main>
 
-    <!-- Contador de visitas con banderas -->
+    <!-- Contador de visitas -->
     <div style="text-align: center; margin: 30px 0;">
-        <a href="https://info.flagcounter.com/qKeN" target="_blank" rel="noopener noreferrer">
+        <a href="https://info.flagcounter.com/qKeN" target="_blank" rel="noopener noreferrer" aria-label="Ver estadísticas de visitantes">
             <img src="https://s05.flagcounter.com/count2/qKeN/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" 
                  alt="Contador de visitantes por país" 
                  border="0"
-                 style="max-width: 100%; height: auto;">
+                 style="max-width: 100%; height: auto;"
+                 loading="lazy">
         </a>
     </div>
 
@@ -616,360 +187,72 @@
     </footer>
 
     <!-- Modal Admin -->
-    <div id="adminModal" class="modal">
+    <div id="adminModal" class="modal" role="dialog" aria-labelledby="adminModalTitle" aria-modal="true">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeAdminModal()">&times;</span>
+            <button class="close-modal" onclick="closeAdminModal()" aria-label="Cerrar modal">&times;</button>
             <div id="loginForm" class="login-form">
-                <h2>🔐 Acceso Administración</h2>
+                <h2 id="adminModalTitle">🔐 Acceso Administración</h2>
                 <div class="form-group">
-                    <input type="email" id="adminEmail" placeholder="Correo de administrador">
+                    <label for="adminEmail" class="sr-only">Correo de administrador</label>
+                    <input type="email" id="adminEmail" placeholder="Correo de administrador" autocomplete="email">
                 </div>
                 <div class="form-group">
-                    <input type="password" id="adminPassword" placeholder="Contraseña de administrador">
+                    <label for="adminPassword" class="sr-only">Contraseña</label>
+                    <input type="password" id="adminPassword" placeholder="Contraseña de administrador" autocomplete="current-password">
                 </div>
                 <button class="submit-btn" onclick="loginAdmin()">Ingresar</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Vista Previa -->
-    <div id="previewModal" class="preview-modal">
-        <div class="preview-content">
-            <div class="preview-header">
-                <h3 class="preview-title" id="previewImageTitle">Título de la Imagen</h3>
-                <button class="preview-close" onclick="closePreviewModal()">&times;</button>
-            </div>
-            <div class="preview-body">
-                <div class="preview-image-container">
-                    <img id="previewImage" src="" alt="Vista previa" class="preview-image">
-                </div>
-                <div class="preview-info">
-                    <div class="preview-details">
-                        <h3 id="previewDetailTitle">Título de la Imagen</h3>
-                        <div class="preview-meta">
-                            <p><strong>Categoría:</strong> <span id="previewCategory">Portada</span></p>
-                            <p><strong>Serie:</strong> <span id="previewSeries">N/A</span></p>
-                            <p><strong>Volumen:</strong> <span id="previewVolume">N/A</span></p>
-                            <p><strong>Fecha:</strong> <span id="previewDate">N/A</span></p>
-                        </div>
-                    </div>
-                    <div class="preview-actions">
-                        <button class="preview-btn download" onclick="downloadPreviewImage()">
-                            ⬇️ Descargar Imagen
-                        </button>
-                        <button class="preview-btn view-original" onclick="viewOriginalImage()">
-                            👁️ Ver Original
-                        </button>
-                        <button class="preview-btn close-preview" onclick="closePreviewModal()">
-                            ❌ Cerrar Vista Previa
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="preview-navigation">
-                <button class="nav-btn" id="prevBtn" onclick="navigatePreview(-1)">
-                    ◀️ Anterior
-                </button>
-                <span class="image-counter" id="imageCounter">1 de 10</span>
-                <button class="nav-btn" id="nextBtn" onclick="navigatePreview(1)">
-                    Siguiente ▶️
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Scripts de la aplicación -->
     <script src="firebase-config.js"></script>
     <script src="security-utils.js"></script>
     <script src="download-utils.js"></script>
+    <script src="js/cache.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/carousel.js"></script>
+    <script src="js/preview-modal.js"></script>
+    <script src="js/admin-auth.js"></script>
 
+    <!-- Script principal -->
     <script>
-        // Estado de los carruseles
-        const carouselState = {
-            portadas: { 
-                currentIndex: 0, 
-                autoScroll: true, 
-                intervalId: null,
-                images: [],
-                currentCategory: 'portadas'
-            },
-            separadores: { 
-                currentIndex: 0, 
-                autoScroll: true, 
-                intervalId: null,
-                images: [],
-                currentCategory: 'separadores'
-            },
-            cubrepolvos: { 
-                currentIndex: 0, 
-                autoScroll: true, 
-                intervalId: null,
-                images: [],
-                currentCategory: 'cubrepolvos'
-            }
-        };
-
-        // Estado del modal de vista previa
-        let previewState = {
-            currentCategory: null,
-            currentIndex: 0,
-            images: []
-        };
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registrado:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('❌ Error registrando Service Worker:', error);
+                    });
+            });
+        }
 
         // Navegación móvil
-        document.getElementById('mobile-menu').addEventListener('click', function() {
-            document.querySelector('.nav-menu').classList.toggle('active');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        mobileMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            this.setAttribute('aria-expanded', navMenu.classList.contains('active'));
         });
 
-        // Modal Admin
-        function openAdminModal() {
-            document.getElementById('adminModal').style.display = 'flex';
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
-            document.getElementById('adminEmail').value = '';
-            document.getElementById('adminPassword').value = '';
-        }
-
-        async function loginAdmin() {
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value;
-
-            try {
-                await signInAdmin(email, password);
-                window.location.href = 'admin.html';
-            } catch (error) {
-                console.error('Error de acceso admin:', error);
-                alert('❌ Contraseña incorrecta');
-            }
-        }
-
-        // Función para desplazamiento automático
-        function startAutoScroll(category) {
-            const state = carouselState[category];
-            const slider = document.getElementById(`${category}-slider`);
-            const indicators = document.getElementById(`${category}-indicators`);
-            
-            if (!slider || !indicators) return;
-
-            state.intervalId = setInterval(() => {
-                if (!state.autoScroll) return;
-                
-                const items = slider.querySelectorAll('.slider-item');
-                if (items.length === 0) return;
-
-                state.currentIndex = (state.currentIndex + 1) % items.length;
-                scrollToItem(category, state.currentIndex);
-            }, 4000); // Cambia cada 4 segundos
-        }
-
-        // Función para desplazarse a un ítem específico
-        function scrollToItem(category, index) {
-            const slider = document.getElementById(`${category}-slider`);
-            const indicators = document.getElementById(`${category}-indicators`);
-            const items = slider.querySelectorAll('.slider-item');
-            
-            if (items.length === 0) return;
-
-            // Asegurar que el índice esté en el rango
-            index = (index + items.length) % items.length;
-            carouselState[category].currentIndex = index;
-
-            // Desplazar al ítem
-            const item = items[index];
-            const scrollPosition = item.offsetLeft - slider.offsetLeft;
-            
-            slider.scrollTo({
-                left: scrollPosition,
-                behavior: 'smooth'
+        // Cerrar menú al hacer clic en un enlace
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+                mobileMenu.setAttribute('aria-expanded', 'false');
             });
-
-            // Actualizar indicadores
-            updateIndicators(category, index);
-        }
-
-        // Función para actualizar los puntos indicadores
-        function updateIndicators(category, activeIndex) {
-            const indicators = document.getElementById(`${category}-indicators`);
-            const dots = indicators.querySelectorAll('.slider-dot');
-            
-            dots.forEach((dot, index) => {
-                if (index === activeIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        // Función para crear indicadores
-        function createIndicators(category, count) {
-            const indicators = document.getElementById(`${category}-indicators`);
-            indicators.innerHTML = '';
-            
-            for (let i = 0; i < count; i++) {
-                const dot = document.createElement('button');
-                dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
-                dot.addEventListener('click', () => {
-                    scrollToItem(category, i);
-                    // Pausar auto-scroll temporalmente al hacer clic manual
-                    pauseAutoScrollTemporarily(category);
-                });
-                indicators.appendChild(dot);
-            }
-        }
-
-        // Pausar auto-scroll temporalmente
-        function pauseAutoScrollTemporarily(category) {
-            const state = carouselState[category];
-            state.autoScroll = false;
-            
-            // Actualizar botón
-            const button = document.querySelector(`[onclick="toggleAutoScroll('${category}')"]`);
-            if (button) {
-                button.textContent = '▶️ Reanudar';
-                button.classList.remove('active');
-            }
-            
-            // Reanudar después de 10 segundos
-            setTimeout(() => {
-                if (!state.autoScroll) {
-                    state.autoScroll = true;
-                    if (button) {
-                        button.textContent = '⏸️ Pausar';
-                        button.classList.add('active');
-                    }
-                }
-            }, 10000);
-        }
-
-        // Alternar auto-scroll
-        function toggleAutoScroll(category) {
-            const state = carouselState[category];
-            const button = document.querySelector(`[onclick="toggleAutoScroll('${category}')"]`);
-            
-            state.autoScroll = !state.autoScroll;
-            
-            if (state.autoScroll) {
-                button.textContent = '⏸️ Pausar';
-                button.classList.add('active');
-            } else {
-                button.textContent = '▶️ Reanudar';
-                button.classList.remove('active');
-            }
-        }
-
-        // Abrir modal de vista previa
-        function openPreviewModal(category, index) {
-            const state = carouselState[category];
-            if (!state.images || state.images.length === 0) return;
-
-            previewState = {
-                currentCategory: category,
-                currentIndex: index,
-                images: state.images
-            };
-
-            updatePreviewModal();
-            document.getElementById('previewModal').classList.add('active');
-            
-            // Pausar auto-scroll de todos los carruseles
-            Object.keys(carouselState).forEach(cat => {
-                carouselState[cat].autoScroll = false;
-                const button = document.querySelector(`[onclick="toggleAutoScroll('${cat}')"]`);
-                if (button) {
-                    button.textContent = '▶️ Reanudar';
-                    button.classList.remove('active');
-                }
-            });
-        }
-
-        // Cerrar modal de vista previa
-        function closePreviewModal() {
-            document.getElementById('previewModal').classList.remove('active');
-            
-            // Reanudar auto-scroll de todos los carruseles
-            Object.keys(carouselState).forEach(cat => {
-                const button = document.querySelector(`[onclick="toggleAutoScroll('${cat}')"]`);
-                if (button && button.textContent === '▶️ Reanudar') {
-                    carouselState[cat].autoScroll = true;
-                    button.textContent = '⏸️ Pausar';
-                    button.classList.add('active');
-                }
-            });
-        }
-
-        // Actualizar contenido del modal de vista previa
-        function updatePreviewModal() {
-            const { currentCategory, currentIndex, images } = previewState;
-            const image = images[currentIndex];
-
-            if (!image) return;
-
-            // Actualizar imagen
-            document.getElementById('previewImage').src = image.url;
-            document.getElementById('previewImage').alt = image.title;
-
-            // Actualizar información
-            document.getElementById('previewImageTitle').textContent = image.title;
-            document.getElementById('previewDetailTitle').textContent = image.title;
-            document.getElementById('previewCategory').textContent = currentCategory;
-            document.getElementById('previewSeries').textContent = image.series || 'N/A';
-            document.getElementById('previewVolume').textContent = image.volume || 'N/A';
-            document.getElementById('previewDate').textContent = image.timestamp?.toDate?.().toLocaleDateString() || 'N/A';
-
-            // Actualizar contador
-            document.getElementById('imageCounter').textContent = `${currentIndex + 1} de ${images.length}`;
-
-            // Actualizar estado de botones de navegación
-            document.getElementById('prevBtn').disabled = currentIndex === 0;
-            document.getElementById('nextBtn').disabled = currentIndex === images.length - 1;
-        }
-
-        // Navegar entre imágenes en el modal
-        function navigatePreview(direction) {
-            const { currentIndex, images } = previewState;
-            const newIndex = currentIndex + direction;
-
-            if (newIndex >= 0 && newIndex < images.length) {
-                previewState.currentIndex = newIndex;
-                updatePreviewModal();
-            }
-        }
-
-        // Descargar imagen desde el modal
-        async function downloadPreviewImage() {
-            const { images, currentIndex } = previewState;
-            const image = images[currentIndex];
-
-            if (!image) return;
-
-            try {
-                const result = await downloadImageWithFallback(image.url, image.title);
-                if (result.method === 'blob') {
-                    showNotification('✅ Descarga iniciada', 'success');
-                } else {
-                    showNotification('ℹ️ Descarga iniciada (modo compatibilidad)', 'info');
-                }
-            } catch (error) {
-                console.error('Error descargando imagen:', error);
-                showNotification('❌ Error al descargar la imagen', 'error');
-            }
-        }
-
-        // Ver imagen original
-        function viewOriginalImage() {
-            const { images, currentIndex } = previewState;
-            const image = images[currentIndex];
-
-            if (!image) return;
-
-            window.open(image.url, '_blank', 'noopener,noreferrer');
-        }
+        });
 
         // Cargar carruseles
         async function loadSliders() {
@@ -978,262 +261,28 @@
 
                 // Cargar los tres carruseles en paralelo
                 await Promise.all([
-                    loadCategoryCarousel('portadas'),
-                    loadCategoryCarousel('separadores'),
-                    loadCategoryCarousel('cubrepolvos')
+                    carouselManager.loadCategoryCarousel('portadas', db, openPreviewModal),
+                    carouselManager.loadCategoryCarousel('separadores', db, openPreviewModal),
+                    carouselManager.loadCategoryCarousel('cubrepolvos', db, openPreviewModal)
                 ]);
 
                 console.log("✅ Todos los carruseles cargados");
 
             } catch (error) {
                 console.error('❌ Error cargando carruseles:', error);
+                toast.error('Error al cargar el contenido');
             }
         }
 
-        // Cargar carrusel por categoría
-        async function loadCategoryCarousel(category) {
-            try {
-                console.log(`📂 Cargando ${category}...`);
-                
-                const snapshot = await db.collection('imagenes')
-                    .where('category', '==', category)
-                    .orderBy('timestamp', 'desc')
-                    .limit(10) // Máximo 10 imágenes por carrusel
-                    .get();
-
-                const slider = document.getElementById(`${category}-slider`);
-                
-                if (snapshot.empty) {
-                    slider.innerHTML = `
-                        <div class="no-images-slider">
-                            <h3>No hay ${category} disponibles</h3>
-                            <p>Ve al panel de administración para subir el primer ${category.slice(0, -1)}</p>
-                            <button class="admin-btn" onclick="openAdminModal()" style="margin-top: 10px;">
-                                📤 Subir ${category.slice(0, -1)}
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-
-                slider.innerHTML = '';
-                const images = [];
-                
-                snapshot.forEach(doc => {
-                    images.push(sanitizeImageRecord({ id: doc.id, ...doc.data() }));
-                });
-
-                // Guardar imágenes en el estado
-                carouselState[category].images = images;
-
-                images.forEach((image, index) => {
-                    if (!image.url) return;
-
-                    const slide = document.createElement('div');
-                    slide.className = 'slider-item';
-                    const img = document.createElement('img');
-                    img.src = image.url;
-                    img.alt = image.title;
-                    img.loading = 'lazy';
-                    img.style.opacity = '0';
-                    img.style.transition = 'opacity 0.3s ease';
-                    img.onload = function() { this.style.opacity = '1'; };
-                    img.onerror = function() {
-                        this.src = 'https://via.placeholder.com/300x200/ecf0f1/7f8c8d?text=Imagen+No+Disponible';
-                        this.style.opacity = '1';
-                    };
-
-                    const info = document.createElement('div');
-                    info.className = 'info';
-
-                    const title = document.createElement('h3');
-                    title.textContent = image.title;
-                    info.appendChild(title);
-
-                    if (image.series) {
-                        const series = document.createElement('p');
-                        series.textContent = `📚 ${image.series}`;
-                        info.appendChild(series);
-                    }
-
-                    if (image.volume) {
-                        const volume = document.createElement('p');
-                        volume.textContent = `📖 Vol. ${image.volume}`;
-                        info.appendChild(volume);
-                    }
-
-                    slide.appendChild(img);
-                    slide.appendChild(info);
-                    
-                    // Hacer la imagen clickeable para abrir vista previa
-                    slide.addEventListener('click', () => {
-                        openPreviewModal(category, index);
-                    });
-                    
-                    slider.appendChild(slide);
-                });
-
-                // Crear indicadores
-                createIndicators(category, images.length);
-                
-                // Iniciar auto-scroll
-                startAutoScroll(category);
-
-                console.log(`✅ ${category} cargados:`, images.length);
-
-            } catch (error) {
-                console.error(`❌ Error cargando ${category}:`, error);
-                const slider = document.getElementById(`${category}-slider`);
-                const safeMessage = sanitizeText(error.message || 'Error desconocido', 200);
-                slider.innerHTML = `
-                    <div class="no-images-slider">
-                        <h3>Error cargando ${category}</h3>
-                        <p>${safeMessage}</p>
-                        <button onclick="loadCategoryCarousel('${category}')" style="margin-top: 10px;">
-                            🔄 Reintentar
-                        </button>
-                    </div>
-                `;
-            }
+        // Función para manejar clic en logo
+        function handleLogoClick() {
+            window.location.href = 'index.html';
         }
 
-        // Mostrar notificación
-        function showNotification(message, type = 'info') {
-            const tempMsg = document.createElement('div');
-            const bgColor = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db';
-            
-            tempMsg.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${bgColor};
-                color: white;
-                padding: 12px 20px;
-                border-radius: 8px;
-                z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                animation: slideIn 0.3s ease;
-            `;
-            tempMsg.textContent = message;
-            document.body.appendChild(tempMsg);
-            
-            setTimeout(() => {
-                tempMsg.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    if (document.body.contains(tempMsg)) {
-                        document.body.removeChild(tempMsg);
-                    }
-                }, 300);
-            }, 3000);
-        }
-
-        // Verificar conexión a Firebase
-        function checkFirebaseConnection() {
-            if (!db) {
-                console.error('❌ Firebase no está inicializado');
-                return false;
-            }
-            return true;
-        }
-
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("🚀 Inicializando página de inicio...");
-            
-            if (!checkFirebaseConnection()) {
-                ['portadas', 'separadores', 'cubrepolvos'].forEach(category => {
-                    document.getElementById(`${category}-slider`).innerHTML = `
-                        <div class="no-images-slider">
-                            <h3>❌ Error de conexión</h3>
-                            <p>No se pudo conectar a la base de datos</p>
-                        </div>
-                    `;
-                });
-                return;
-            }
-            
-            // Cargar carruseles iniciales
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
             loadSliders();
-            
-            // Pausar auto-scroll cuando el usuario interactúe
-            ['portadas', 'separadores', 'cubrepolvos'].forEach(category => {
-                const slider = document.getElementById(`${category}-slider`);
-                if (slider) {
-                    slider.addEventListener('mouseenter', () => {
-                        carouselState[category].autoScroll = false;
-                    });
-                    
-                    slider.addEventListener('mouseleave', () => {
-                        if (document.querySelector(`[onclick="toggleAutoScroll('${category}')"]`).textContent === '⏸️ Pausar') {
-                            carouselState[category].autoScroll = true;
-                        }
-                    });
-                }
-            });
-
-            // Cerrar modal de vista previa con Escape
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape') {
-                    closePreviewModal();
-                }
-            });
         });
-
-        // Cerrar modal al hacer click fuera
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('adminModal');
-            if (event.target === modal) {
-                closeAdminModal();
-            }
-            
-            const previewModal = document.getElementById('previewModal');
-            if (event.target === previewModal) {
-                closePreviewModal();
-            }
-        });
-
-        // Cerrar modal con Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.target !== document.getElementById('adminPassword') && event.target !== document.getElementById('adminEmail') && event.key === 'Escape') {
-                closeAdminModal();
-            }
-        });
-
-        // Limpiar intervals cuando la página se cierre
-        window.addEventListener('beforeunload', () => {
-            Object.values(carouselState).forEach(state => {
-                if (state.intervalId) {
-                    clearInterval(state.intervalId);
-                }
-            });
-        });
-
-        // Animaciones CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-            @keyframes slideOut {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>

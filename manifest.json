@@ -1,0 +1,64 @@
+{
+    "name": "CoverMangaHD",
+    "short_name": "CoverManga",
+    "description": "Portadas, cubrepolvos y separadores de manga en alta calidad para descargar e imprimir.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#f8f9fa",
+    "theme_color": "#2c3e50",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "es",
+    "categories": ["entertainment", "lifestyle"],
+    "icons": [
+        {
+            "src": "https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://images.emojiterra.com/microsoft/fluent-emoji/15.1/256px/1f3b4_color.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "https://images.emojiterra.com/microsoft/fluent-emoji/15.1/128px/1f3b4_color.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "label": "CoverMangaHD - Portadas de Manga"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Portadas",
+            "short_name": "Portadas",
+            "description": "Ver galería de portadas",
+            "url": "/portadas.html",
+            "icons": [{ "src": "https://images.emojiterra.com/microsoft/fluent-emoji/15.1/96px/1f3b4_color.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Separadores",
+            "short_name": "Separadores",
+            "description": "Ver galería de separadores",
+            "url": "/separadores.html",
+            "icons": [{ "src": "https://images.emojiterra.com/microsoft/fluent-emoji/15.1/96px/1f3b4_color.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Cubre Polvos",
+            "short_name": "Cubre Polvos",
+            "description": "Ver galería de cubre polvos",
+            "url": "/cubrepolvos.html",
+            "icons": [{ "src": "https://images.emojiterra.com/microsoft/fluent-emoji/15.1/96px/1f3b4_color.png", "sizes": "96x96" }]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false
+}

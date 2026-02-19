@@ -1,0 +1,379 @@
+/* css/carousel.css - Estilos del Carrusel Mejorados */
+
+/* Sección del slider */
+.slider-section {
+    margin-bottom: 50px;
+}
+
+.slider-container {
+    position: relative;
+    margin: 20px 0;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    padding: 25px 20px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 15px 5px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+}
+
+.slider::-webkit-scrollbar {
+    display: none;
+}
+
+.slider-item {
+    flex: 0 0 auto;
+    width: 280px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.04);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    animation: fadeInUp 0.5s ease;
+    scroll-snap-align: start;
+    position: relative;
+}
+
+.slider-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 50%
+    );
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.slider-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 2px var(--secondary-color);
+}
+
+.slider-item:hover::before {
+    opacity: 1;
+}
+
+.slider-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.slider-item:hover img {
+    transform: scale(1.05);
+}
+
+.slider-item .info {
+    padding: 18px;
+    background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 100%);
+    position: relative;
+}
+
+.slider-item h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.05em;
+    color: var(--text-color);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.slider-item p {
+    margin: 0;
+    font-size: 0.85em;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Efecto de brillo al pasar el mouse */
+.slider-item::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+    );
+    transform: rotate(30deg) translateX(-100%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.slider-item:hover::after {
+    transform: rotate(30deg) translateX(100%);
+}
+
+/* Spinner de carga para carruseles */
+.slider-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.slider-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--secondary-color);
+    border-right: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.slider-loading-text {
+    color: var(--text-color);
+    font-size: 1em;
+    font-weight: 500;
+}
+
+/* Indicadores de puntos mejorados */
+.slider-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e0e0e0, #f5f5f5);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.1),
+        0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.slider-dot.active {
+    background: linear-gradient(145deg, var(--secondary-color), var(--primary-color));
+    transform: scale(1.3);
+    box-shadow: 
+        0 4px 15px rgba(52, 152, 219, 0.4),
+        0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.slider-dot:hover:not(.active) {
+    background: linear-gradient(145deg, #c0c0c0, #e0e0e0);
+    transform: scale(1.15);
+}
+
+/* Navegación automática mejorada */
+.slider-nav-auto {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.auto-nav-btn {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 10px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.auto-nav-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(44, 62, 80, 0.2);
+}
+
+.auto-nav-btn.active {
+    background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Botones de navegación del carrusel */
+.slider-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.slider-nav-btn.prev {
+    left: -10px;
+}
+
+.slider-nav-btn.next {
+    right: -10px;
+}
+
+.slider-nav-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Mensaje cuando no hay imágenes */
+.no-images-slider {
+    text-align: center;
+    padding: 60px 40px;
+    background: linear-gradient(145deg, #f8f9fa, #ffffff);
+    border-radius: 16px;
+    color: #666;
+    border: 2px dashed #ddd;
+}
+
+.no-images-slider h3 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.no-images-slider p {
+    margin-bottom: 20px;
+}
+
+/* Enlace de categoría */
+.category-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    margin-top: 25px;
+    padding: 12px 28px;
+    color: white;
+    background: linear-gradient(145deg, var(--secondary-color), var(--primary-color));
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-size: 1em;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.category-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+}
+
+/* Animaciones */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .slider-item {
+        width: 250px;
+    }
+    
+    .slider-indicators {
+        flex-wrap: wrap;
+    }
+    
+    .slider-container {
+        padding: 20px 15px;
+        border-radius: 16px;
+    }
+    
+    .slider-nav-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1em;
+    }
+    
+    .slider-nav-btn.prev {
+        left: 5px;
+    }
+    
+    .slider-nav-btn.next {
+        right: 5px;
+    }
+    
+    .category-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .slider-item {
+        width: 220px;
+    }
+    
+    .slider-item img {
+        height: 160px;
+    }
+}

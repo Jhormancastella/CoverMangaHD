@@ -1,4 +1,4 @@
-# 🎴 CoverMangaHD.
+# 🎴 CoverMangaHD
 
 ## Url
 
@@ -17,58 +17,115 @@ Explóralo y dime qué te parece.
 
 ---
 
-## Seguridad y configuracion de Admin (actualizado)
+## 🚀 Características
 
-Este proyecto ahora usa Firebase Auth para acceder al panel `admin.html`.
+- ✅ **PWA (Progressive Web App)** - Instalable en dispositivos móviles
+- ✅ **Offline Support** - Funciona sin conexión gracias al Service Worker
+- ✅ **Sistema de Caché** - Mejora el rendimiento con localStorage
+- ✅ **Notificaciones Toast** - Feedback visual al usuario
+- ✅ **SEO Optimizado** - Metadatos, JSON-LD, sitemap
+- ✅ **Responsive Design** - Adaptado a todos los dispositivos
+- ✅ **Accesibilidad** - ARIA labels, navegación por teclado
+- ✅ **Código Modular** - CSS y JS organizados en archivos separados
+
+---
+
+## 📂 Estructura del Proyecto
+
+```
+CoverMangaHD/
+├── index.html              # Página principal con carruseles
+├── portadas.html           # Galería de portadas
+├── separadores.html        # Galería de separadores
+├── cubrepolvos.html        # Galería de cubre polvos
+├── admin.html              # Panel de administración
+├── style.css               # Estilos base
+├── css/
+│   ├── carousel.css        # Estilos del carrusel
+│   ├── modal.css           # Estilos de modales
+│   └── notifications.css   # Estilos de notificaciones toast
+├── js/
+│   ├── carousel.js         # Lógica de carruseles
+│   ├── gallery.js          # Lógica de galerías
+│   ├── preview-modal.js    # Modal de vista previa
+│   ├── notifications.js    # Sistema de notificaciones
+│   ├── cache.js            # Sistema de caché
+│   └── admin-auth.js       # Autenticación admin
+├── firebase-config.js      # Configuración de Firebase
+├── security-utils.js       # Utilidades de seguridad
+├── download-utils.js       # Utilidades de descarga
+├── manifest.json           # PWA manifest
+├── sw.js                   # Service Worker
+├── firestore.rules         # Reglas de Firestore
+├── storage.rules           # Reglas de Storage
+├── robots.txt              # Configuración para bots
+└── sitemap.xml             # Mapa del sitio
+```
+
+---
+
+## 🔧 Seguridad y Configuración de Admin
+
+Este proyecto usa Firebase Auth para acceder al panel `admin.html`.
+
+### Pasos de configuración:
 
 1. Crea un usuario admin en Firebase Authentication (Email/Password).
 2. Reemplaza el correo de allowlist en `firebase-config.js`:
-   - `ADMIN_EMAIL_ALLOWLIST = ["tu_correo_admin@dominio.com"]`
+   ```javascript
+   ADMIN_CONFIG.allowlist = ["tu_correo_admin@dominio.com"]
+   ```
 3. Publica reglas de Firestore usando `firestore.rules`.
 4. Publica reglas de Storage usando `storage.rules`.
 
-Reglas recomendadas:
+### Recomendaciones de seguridad:
 
-- Lectura publica de imagenes.
-- Escritura solo para usuarios autenticados y autorizados como admin.
-- Validacion de categorias permitidas.
-- Validacion de tamano/tipo MIME en Storage.
-
-## Descarga de imagenes (UX)
-
-El boton de descarga ahora intenta primero descarga real por `blob` (mejor experiencia).
-Si el origen bloquea CORS o no permite blob directo, usa un fallback de enlace directo.
-Esto mejora compatibilidad entre navegadores y distintos hostings de imagenes.
-
-## SEO e indexacion en Google (actualizado)
-
-Archivos SEO agregados al proyecto:
-
-- `robots.txt`
-- `sitemap.xml`
-- Metadatos `title`, `description`, `canonical`, Open Graph y Twitter en paginas publicas
-- Datos estructurados JSON-LD en pagina principal y colecciones
-- `admin.html` marcado con `noindex`
-
-Pasos para completar en Google:
-
-1. Publica/deploya los cambios.
-2. Abre Google Search Console y verifica la propiedad:
-   - `https://jhormancastella.github.io/CoverMangaHD/`
-3. En Search Console, envia este sitemap:
-   - `https://jhormancastella.github.io/CoverMangaHD/sitemap.xml`
-4. Usa "Inspeccion de URL" y solicita indexacion para:
-   - `/`
-   - `/portadas.html`
-   - `/separadores.html`
-   - `/cubrepolvos.html`
-
-## ✨ ¿Por qué -CoverManga- ?
-- el nombre directo lo que se quiere logar 
-es que los fans del manga tenga en su mejor estado sus mangas y demas colecciones.
+- Configura restricciones de dominio en Firebase Console
+- Considera usar Firebase App Check para evitar abuso
+- En producción, usa Firebase Custom Claims en lugar de email allowlist
 
 ---
-## Característica y Beneficio.
+
+## 📥 Descarga de Imágenes (UX)
+
+El botón de descarga implementa un sistema inteligente:
+
+1. **Intenta primero descarga real por `blob`** (mejor experiencia)
+2. **Si el origen bloquea CORS**, usa un fallback de enlace directo
+
+Esto mejora compatibilidad entre navegadores y distintos hostings de imágenes.
+
+---
+
+## 🔍 SEO e Indexación en Google
+
+### Archivos SEO incluidos:
+
+- `robots.txt` - Control de indexación
+- `sitemap.xml` - Mapa del sitio
+- Metadatos `title`, `description`, `canonical`, Open Graph y Twitter
+- Datos estructurados JSON-LD (WebSite, Organization, CollectionPage)
+- `admin.html` marcado con `noindex`
+
+### Pasos para completar en Google:
+
+1. Publica/deploya los cambios.
+2. Abre [Google Search Console](https://search.google.com/search-console) y verifica la propiedad.
+3. En Search Console, envía este sitemap:
+   ```
+   https://jhormancastella.github.io/CoverMangaHD/sitemap.xml
+   ```
+4. Usa "Inspección de URL" y solicita indexación para cada página.
+
+---
+
+## ✨ ¿Por qué CoverManga?
+
+El nombre directo lo que se quiere lograr es que los fans del manga tengan en su mejor estado sus mangas y demás colecciones.
+
+---
+
+## 🎯 Características y Beneficios
 
 | Característica                  | Beneficio                                             |
 | --------------------------------|------------------------------------------------------ |
@@ -82,7 +139,7 @@ es que los fans del manga tenga en su mejor estado sus mangas y demas coleccione
 
 ## 🌐 Inspiración Visual
 
-CoverManga+ toma lo mejor de [Mokuton Covers](https://mokuton.com/covers/index.php) y lo eleva con:
+CoverMangaHD toma lo mejor de [Mokuton Covers](https://mokuton.com/covers/index.php) y lo eleva con:
 
 * ✅ **Navegación intuitiva** por series y categorías
 * ✅ **Previsualizaciones interactivas de portadas**
@@ -92,74 +149,78 @@ CoverManga+ toma lo mejor de [Mokuton Covers](https://mokuton.com/covers/index.p
 
 ---
 
-## 📂 Estructura del Repositorio
+## 📈 Tecnologías Utilizadas
 
-```bash
-CoverManga+/
-├── manga/               # Portadas de manga japonés
-│   ├── one-piece/
-│   │   ├── vol-1.jpg
-│   │   ├── vol-1.psd
-│   │   └── ComoUsar.jpg
-│   └── attack-on-titan/
-├── manhwa/              # Recursos para manhwa coreano
-├── light-novels/        # Cubiertas para novelas ligeras
-├── cubrepolvos/         # Cubrepolvos universales
-├── separadores/         # Separadores de hojas
-└── uploads/             # Archivos enviados por la comunidad
-```
+### Frontend
+- HTML5 semántico
+- CSS3 con variables CSS
+- JavaScript ES6+ modular
+- PWA (Service Worker, Web App Manifest)
 
----
+### Backend & Database
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Storage
 
-## 🎡 Próximamente en la Web
-
-### 📢 Bienvenida
-
-Al ingresar, el usuario verá una pantalla de bienvenida con una descripción corta del proyecto.
-
-### 🔻 Navegación (Escritorio)
-
-* **Inicio**: portada y novedades
-* **Categorías**:
-  * Manga
-  * Manhwa
-  * Novelas Ligeras
-* **Sobre CoverManga+**: información y misión del proyecto.
-  
-* **Aporta o Solicita**: formulario para subir portadas o hacer peticiones
-
-### 🌎 Navegación (Móvil)
-
-* Menú hamburguesa con las mismas opciones anteriores
-
-### 🔍 Dentro de cada categoría
-
-* **Filtros por nombre, género, tipo o idioma**
-* Ejemplo: en *Manga* se puede buscar por nombre o filtrar por *Shōnen*, *Isekai*, etc.
-* Cada portada se podrá previsualizar y descargar en varios formatos
+### Herramientas
+- GitHub Pages (hosting)
+- Google Search Console (SEO)
 
 ---
 
-## 📈 Tecnologías a utilizar (fase web) / actualmente solo local para pruebas.
+## 🌈 Estilo Visual (Guía de Diseño)
 
-* **Frontend**: HTML, CSS, JavaScript (y opcionalmente Tailwind)
-* **Backend**: Java + Spring Boot (con API REST)
-* **Base de datos**: H2 en local, PostgreSQL para producción / actualmente solo local para pruebas.
+### Paleta principal:
+
+* Fondo claro: `#f8f9fa`
+* Primario: `#2c3e50`
+* Secundario: `#3498db`
+* Acento: `#e74c3c`
+* Texto: `#333`
+
+### Tipografía:
+
+* Títulos: Segoe UI Bold
+* Texto general: Segoe UI
+
+---
+
+## 📱 PWA Installation
+
+CoverMangaHD se puede instalar como una aplicación en tu dispositivo:
+
+1. Visita el sitio en Chrome o Edge
+2. Haz clic en el icono de instalación en la barra de direcciones
+3. O usa el menú "Instalar aplicación"
 
 ---
 
-## 🌈 Estilo visual (guía de diseño)
+## 🤝 Contribuir
 
-* **Paleta principal:**
+¡Las contribuciones son bienvenidas! Por favor:
 
-  * Fondo oscuro: `#1E1E2F`
-  * Acento rosa: `#FF69B4`
-  * Texto claro: `#FFFFFF`
-  * Detalles en violeta: `#8A2BE2`
-
-* **Tipografía:**
-
-  * Títulos: *"Bebas Neue", sans-serif*
-  * Texto general: *"Inter", sans-serif*
+1. Haz fork del repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/NuevaCaracteristica`)
+3. Commit tus cambios (`git commit -m 'Agrega nueva característica'`)
+4. Push a la rama (`git push origin feature/NuevaCaracteristica`)
+5. Abre un Pull Request
 
 ---
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+---
+
+## 👤 Autor
+
+**Jhorman Jesús Castellanos Morales**
+
+---
+
+<div align="center">
+
+**⭐ Si te gusta este proyecto, dale una estrella! ⭐**
+
+</div>

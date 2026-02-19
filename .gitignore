@@ -1,0 +1,76 @@
+# Archivos de sistema operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Archivos de IDE y editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencias (si se agregan en el futuro)
+node_modules/
+bower_components/
+
+# Archivos de build/dist (si se usa un bundler)
+dist/
+build/
+.cache/
+
+# Archivos de entorno local
+.env
+.env.local
+.env.*.local
+
+# Archivos temporales
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Archivos de backup
+*.bak
+*.backup
+*~
+
+# Archivos comprimidos (generalmente no se versionan)
+*.zip
+*.tar.gz
+*.rar
+
+# Archivos de configuración de Firebase (opcional, solo si quieres mantenerlos privados)
+# .firebaserc
+# firebase.json
+
+# Service Worker cache (generado automáticamente)
+# sw.js.map
+
+# Archivos de cobertura de tests
+coverage/
+.nyc_output/
+
+# Archivos de documentación generada
+docs/_build/
+
+# Notas personales
+NOTES.md
+TODO.md

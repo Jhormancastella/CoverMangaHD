@@ -3,28 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cubrepolvos de Manga | CoverMangaHD</title>
-    <meta name="description" content="Descarga cubrepolvos de manga en alta calidad para proteger y personalizar tus tomos. Recursos organizados en CoverMangaHD.">
+    <title>Cubre Polvos de Manga HD | CoverMangaHD</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Galeria de cubre polvos de manga en alta calidad para descargar e imprimir. Coleccion organizada por serie en CoverMangaHD.">
     <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Jhorman Jesús Castellanos Morales">
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://jhormancastella.github.io/CoverMangaHD/cubrepolvos.html">
+    
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_ES">
     <meta property="og:site_name" content="CoverMangaHD">
-    <meta property="og:title" content="Cubrepolvos de Manga | CoverMangaHD">
-    <meta property="og:description" content="Cubrepolvos de manga en alta calidad para descargar e imprimir.">
+    <meta property="og:title" content="Cubre Polvos de Manga HD | CoverMangaHD">
+    <meta property="og:description" content="Explora y descarga cubre polvos de manga en alta calidad.">
     <meta property="og:url" content="https://jhormancastella.github.io/CoverMangaHD/cubrepolvos.html">
     <meta property="og:image" content="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png">
+    
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Cubrepolvos de Manga | CoverMangaHD">
-    <meta name="twitter:description" content="Descarga cubrepolvos de manga en alta calidad.">
+    <meta name="twitter:title" content="Cubre Polvos de Manga HD | CoverMangaHD">
+    <meta name="twitter:description" content="Descarga cubre polvos de manga en alta calidad.">
     <meta name="twitter:image" content="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" type="image/png">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://firestore.googleapis.com">
+    <link rel="preconnect" href="https://storage.googleapis.com">
+    
+    <!-- Estilos CSS -->
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png " type="image/png">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    
+    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      "name": "Cubrepolvos de Manga",
+      "name": "Cubre Polvos de Manga HD",
       "url": "https://jhormancastella.github.io/CoverMangaHD/cubrepolvos.html",
       "isPartOf": {
         "@type": "WebSite",
@@ -39,24 +64,26 @@
     <!-- Header -->
     <header class="header">
         <div class="nav-container">
-            <div class="logo">
-                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png " alt="CoverManga" class="logo-img">
+            <div class="logo" onclick="window.location.href='index.html'" role="button" tabindex="0" aria-label="Ir al inicio">
+                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" alt="CoverManga Logo" class="logo-img">
                 <span>CoverManga</span>
             </div>
             
-            <div class="menu-toggle" id="mobile-menu">
+            <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menú" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
             
-            <ul class="nav-menu">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="portadas.html">Portadas</a></li>
-                <li><a href="separadores.html">Separadores</a></li>
-                <li><a href="cubrepolvos.html" class="active">Cubre Polvos</a></li>
-                <li><button class="admin-btn" onclick="openAdminModal()">AD</button></li>
-            </ul>
+            <nav>
+                <ul class="nav-menu" role="menubar">
+                    <li role="none"><a href="index.html" role="menuitem">Inicio</a></li>
+                    <li role="none"><a href="portadas.html" role="menuitem">Portadas</a></li>
+                    <li role="none"><a href="separadores.html" role="menuitem">Separadores</a></li>
+                    <li role="none"><a href="cubrepolvos.html" class="active" role="menuitem">Cubre Polvos</a></li>
+                    <li role="none"><button class="admin-btn" onclick="openAdminModal()" aria-label="Panel de administración">AD</button></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
@@ -65,10 +92,19 @@
         <div class="container">
             <h1 class="section-title">🛡️ Galería de Cubre Polvos</h1>
             <p style="text-align: center; margin-bottom: 30px; color: var(--text-color);">
-                Protege tus mangas con estilo con nuestros cubre polvos
+                Descubre nuestra colección de cubre polvos de manga
             </p>
             
-            <div class="gallery-grid" id="cubrepolvos-gallery">
+            <!-- Barra de búsqueda -->
+            <div class="search-bar" style="max-width: 500px; margin: 0 auto 30px;">
+                <input type="text" 
+                       id="searchInput" 
+                       placeholder="Buscar por título o serie..." 
+                       style="width: 100%; padding: 12px 20px; border: 2px solid var(--border-color); border-radius: 25px; font-size: 16px;"
+                       aria-label="Buscar cubre polvos">
+            </div>
+            
+            <div class="gallery-grid" id="cubrepolvos-gallery" role="region" aria-label="Galería de cubre polvos">
                 <div class="loading-container">
                     <div class="loading-spinner"></div>
                     <p class="loading-text">Cargando cubre polvos...</p>
@@ -86,486 +122,69 @@
     </footer>
 
     <!-- Modal Admin -->
-    <div id="adminModal" class="modal">
+    <div id="adminModal" class="modal" role="dialog" aria-labelledby="adminModalTitle" aria-modal="true">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeAdminModal()">&times;</span>
+            <button class="close-modal" onclick="closeAdminModal()" aria-label="Cerrar modal">&times;</button>
             <div id="loginForm" class="login-form">
-                <h2>🔐 Acceso Administración</h2>
+                <h2 id="adminModalTitle">🔐 Acceso Administración</h2>
                 <div class="form-group">
-                    <input type="email" id="adminEmail" placeholder="Correo de administrador">
+                    <label for="adminEmail" class="sr-only">Correo de administrador</label>
+                    <input type="email" id="adminEmail" placeholder="Correo de administrador" autocomplete="email">
                 </div>
                 <div class="form-group">
-                    <input type="password" id="adminPassword" placeholder="Contraseña de administrador">
+                    <label for="adminPassword" class="sr-only">Contraseña</label>
+                    <input type="password" id="adminPassword" placeholder="Contraseña de administrador" autocomplete="current-password">
                 </div>
                 <button class="submit-btn" onclick="loginAdmin()">Ingresar</button>
             </div>
         </div>
     </div>
 
-    <!-- Firebase -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Scripts de la aplicación -->
     <script src="firebase-config.js"></script>
     <script src="security-utils.js"></script>
     <script src="download-utils.js"></script>
+    <script src="js/cache.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/preview-modal.js"></script>
+    <script src="js/admin-auth.js"></script>
 
+    <!-- Script principal -->
     <script>
         // Navegación móvil
-        document.getElementById('mobile-menu').addEventListener('click', function() {
-            document.querySelector('.nav-menu').classList.toggle('active');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        mobileMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            this.setAttribute('aria-expanded', navMenu.classList.contains('active'));
         });
 
-        // Modal Admin
-        function openAdminModal() {
-            document.getElementById('adminModal').style.display = 'flex';
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
-            document.getElementById('adminEmail').value = '';
-            document.getElementById('adminPassword').value = '';
-        }
-
-        async function loginAdmin() {
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value;
-            try {
-                await signInAdmin(email, password);
-                window.location.href = 'admin.html';
-            } catch (error) {
-                console.error('Error de acceso admin:', error);
-                alert('❌ Contraseña incorrecta');
-            }
-        }
-
-        // Cargar galería de cubre polvos - VERSIÓN OPTIMIZADA CON ÍNDICE
-        async function loadCubrePolvosGallery() {
-            const gallery = document.getElementById('cubrepolvos-gallery');
-            
-            try {
-                console.log("🚀 Cargando cubre polvos con índice...");
-                
-                // Mostrar spinner mientras carga
-                gallery.innerHTML = `
-                    <div class="loading-container">
-                        <div class="loading-spinner"></div>
-                        <p class="loading-text">Cargando cubre polvos...</p>
-                    </div>
-                `;
-
-                // CONSULTA ÓPTIMA CON ÍNDICE
-                const snapshot = await db.collection('imagenes')
-                    .where('category', '==', 'cubrepolvos')
-                    .orderBy('timestamp', 'desc')
-                    .get();
-
-                console.log("✅ Cubre polvos cargados:", snapshot.size);
-                
-                if (snapshot.empty) {
-                    gallery.innerHTML = `
-                        <div class="no-images">
-                            <h3>🛡️ No hay cubre polvos aún</h3>
-                            <p>Protege tus mangas subiendo el primer cubre polvo</p>
-                            <button class="admin-btn" onclick="openAdminModal()" style="margin-top: 10px;">
-                                📤 Subir Cubre Polvo
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-
-                gallery.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const image = sanitizeImageRecord(doc.data());
-                    if (!image.url) return;
-
-                    const galleryItem = document.createElement('div');
-                    galleryItem.className = 'gallery-item cubrepolvo-item';
-                    const container = document.createElement('div');
-                    container.className = 'image-container';
-
-                    const img = document.createElement('img');
-                    img.src = image.url;
-                    img.alt = image.title;
-                    img.loading = 'lazy';
-                    img.style.opacity = '0';
-                    img.style.transition = 'opacity 0.3s ease';
-                    img.onload = function() { this.style.opacity = '1'; };
-                    img.onerror = function() {
-                        this.src = 'https://via.placeholder.com/300x400/ecf0f1/7f8c8d?text=Cubre+Polvo';
-                        this.style.opacity = '1';
-                    };
-
-                    const overlay = document.createElement('div');
-                    overlay.className = 'image-overlay';
-
-                    const title = document.createElement('h3');
-                    title.textContent = image.title;
-                    overlay.appendChild(title);
-
-                    if (image.series) {
-                        const series = document.createElement('p');
-                        series.textContent = `📚 ${image.series}`;
-                        overlay.appendChild(series);
-                    }
-
-                    if (image.volume) {
-                        const volume = document.createElement('p');
-                        volume.textContent = `📖 Vol. ${image.volume}`;
-                        overlay.appendChild(volume);
-                    }
-
-                    const actions = document.createElement('div');
-                    actions.className = 'image-actions';
-
-                    const downloadButton = document.createElement('button');
-                    downloadButton.className = 'download-btn';
-                    downloadButton.textContent = '⬇️ Descargar';
-                    downloadButton.addEventListener('click', () => downloadImage(image.url, image.title));
-
-                    const viewButton = document.createElement('button');
-                    viewButton.className = 'view-btn';
-                    viewButton.textContent = '👁️ Ver';
-                    viewButton.addEventListener('click', () => viewImage(image.url));
-
-                    actions.appendChild(downloadButton);
-                    actions.appendChild(viewButton);
-                    overlay.appendChild(actions);
-                    container.appendChild(img);
-                    container.appendChild(overlay);
-                    galleryItem.appendChild(container);
-                    gallery.appendChild(galleryItem);
-                });
-
-            } catch (error) {
-                console.error('❌ Error cargando cubre polvos:', error);
-                
-                // Manejo de errores específicos
-                let errorMessage = 'Error cargando cubre polvos';
-                let showRetry = true;
-                
-                if (error.code === 'failed-precondition') {
-                    errorMessage = 'El índice aún se está creando. Intenta en 2-3 minutos.';
-                } else if (error.code === 'permission-denied') {
-                    errorMessage = 'Error de permisos. Contacta al administrador.';
-                    showRetry = false;
-                } else if (error.code === 'unavailable') {
-                    errorMessage = 'Error de conexión. Verifica tu internet.';
-                } else {
-                    errorMessage += ': ' + sanitizeText(error.message || 'Error desconocido', 200);
-                }
-                
-                gallery.innerHTML = `
-                    <div class="error-message">
-                        <h3>❌ Error</h3>
-                        <p>${errorMessage}</p>
-                        ${showRetry ? `<button onclick="loadCubrePolvosGallery()" style="margin-top: 10px;">🔄 Reintentar</button>` : ''}
-                    </div>
-                `;
-            }
-        }
-
-        // Función para descargar imágenes
-        async function downloadImage(imageUrl, title) {
-            try {
-                const result = await downloadImageWithFallback(imageUrl, title);
-                if (result.method === 'blob') {
-                    showNotification('✅ Descarga iniciada', 'success');
-                } else {
-                    showNotification('ℹ️ Descarga iniciada (modo compatibilidad)', 'info');
-                }
-            } catch (error) {
-                console.error('Error descargando imagen:', error);
-                showNotification('❌ Error al descargar la imagen', 'error');
-            }
-        }
-
-        // Función para ver imagen en grande
-        function viewImage(imageUrl) {
-            window.open(imageUrl, '_blank', 'noopener,noreferrer');
-        }
-
-        // Mostrar notificación
-        function showNotification(message, type = 'info') {
-            const tempMsg = document.createElement('div');
-            const bgColor = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db';
-            
-            tempMsg.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${bgColor};
-                color: white;
-                padding: 12px 20px;
-                border-radius: 8px;
-                z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                animation: slideIn 0.3s ease;
-            `;
-            tempMsg.textContent = message;
-            document.body.appendChild(tempMsg);
-            
-            setTimeout(() => {
-                tempMsg.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    if (document.body.contains(tempMsg)) {
-                        document.body.removeChild(tempMsg);
-                    }
-                }, 300);
-            }, 3000);
-        }
-
-        // Verificar conexión a Firebase
-        function checkFirebaseConnection() {
-            if (!db) {
-                console.error('❌ Firebase no está inicializado');
-                return false;
-            }
-            return true;
-        }
-
-        // Inicializar - CÓDIGO OPTIMIZADO
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("🚀 Inicializando página de cubre polvos...");
-            
-            if (!checkFirebaseConnection()) {
-                document.getElementById('cubrepolvos-gallery').innerHTML = `
-                    <div class="error-message">
-                        <h3>❌ Error de conexión</h3>
-                        <p>No se pudo conectar a la base de datos</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Cargar galería inicial
-            loadCubrePolvosGallery();
-            
-            // Escuchar cambios en tiempo real
-            try {
-                const unsubscribe = db.collection('imagenes')
-                    .where('category', '==', 'cubrepolvos')
-                    .orderBy('timestamp', 'desc')
-                    .onSnapshot(() => {
-                        console.log("🔄 Actualización en tiempo real detectada");
-                        loadCubrePolvosGallery();
-                    }, error => {
-                        console.warn('⚠️ Error en listener tiempo real:', error);
-                    });
-                
-                // Limpiar listener cuando la página se cierre
-                window.addEventListener('beforeunload', () => {
-                    unsubscribe();
-                });
-                
-            } catch (error) {
-                console.warn('⚠️ No se pudo establecer listener tiempo real:', error);
-            }
+        // Búsqueda con debounce
+        let searchTimeout;
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                galleryManager.search(e.target.value);
+            }, 300);
         });
 
-        // Cerrar modal al hacer click fuera
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('adminModal');
-            if (event.target === modal) {
-                closeAdminModal();
-            }
-        });
+        // Cargar galería
+        async function loadGallery() {
+            await galleryManager.loadGallery('cubrepolvos', db);
+        }
 
-        // Cerrar modal con Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.target !== document.getElementById('adminEmail') && event.target !== document.getElementById('adminPassword') && event.key === 'Escape') {
-                closeAdminModal();
-            }
-        });
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', loadGallery);
     </script>
-
-    <style>
-        /* Spinner de carga */
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-            grid-column: 1 / -1;
-            text-align: center;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        .loading-text {
-            color: var(--text-color);
-            font-size: 1.1em;
-            margin-top: 10px;
-        }
-
-        /* Animación del spinner */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .no-images, .error-message {
-            text-align: center;
-            padding: 40px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            margin: 20px 0;
-            grid-column: 1 / -1;
-        }
-
-        .image-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .image-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-
-        .image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            color: white;
-            padding: 20px;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover .image-overlay {
-            transform: translateY(0);
-        }
-
-        .image-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .download-btn, .view-btn {
-            flex: 1;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .view-btn {
-            background: #8e44ad;
-        }
-
-        .download-btn:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .view-btn:hover {
-            background: #9b59b6;
-            transform: translateY(-2px);
-        }
-
-        /* Cubre polvos tienen proporción similar a portadas */
-        .gallery-item img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Animaciones para notificaciones */
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-
-        /* ✅ MEJORA: Responsive corregido para móviles */
-        @media (max-width: 768px) {
-            .loading-container {
-                padding: 40px 20px;
-            }
-            
-            .loading-spinner {
-                width: 40px;
-                height: 40px;
-                border-width: 4px;
-            }
-            
-            /* 🔧 Corrección clave: mantener posición absoluta y siempre visible */
-            .image-overlay {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                transform: translateY(0); /* Siempre visible en móvil */
-                background: var(--card-bg);
-                color: var(--text-color);
-                padding: 15px;
-            }
-
-            /* Asegurar contenedor relativo (aunque ya está, por si acaso) */
-            .image-container {
-                position: relative;
-            }
-            
-            .image-actions {
-                flex-direction: column;
-            }
-            
-            .gallery-item:hover .image-container {
-                transform: none;
-            }
-            
-            .gallery-item img {
-                height: 250px;
-                object-fit: cover;
-            }
-        }
-
-        /* Estilo específico para cubre polvos */
-        .gallery-item.cubrepolvo-item {
-            aspect-ratio: 3/4;
-        }
-    </style>
 </body>
 </html>
