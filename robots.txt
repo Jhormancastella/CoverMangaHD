@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://jhormancastella.github.io/CoverMangaHD/sitemap.xml
+Sitemap: https://covermangahd.qd.je/sitemap.xml
