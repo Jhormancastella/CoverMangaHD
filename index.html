@@ -31,6 +31,7 @@
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2c3e50">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="CoverManga">
@@ -77,19 +78,16 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="nav-container">
+<header class="header">
+    <div class="nav-container">
+        <div class="nav-left">
             <div class="logo" onclick="window.location.href='index.html'" role="button" tabindex="0" aria-label="Ir al inicio">
                 <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" alt="CoverManga Logo" class="logo-img">
                 <span>CoverManga</span>
             </div>
-            
-            <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menú" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            
+        </div>
+        
+        <div class="nav-right">
             <nav>
                 <ul class="nav-menu" role="menubar">
                     <li role="none"><a href="index.html" class="active" role="menuitem">Inicio</a></li>
@@ -100,7 +98,15 @@
                 </ul>
             </nav>
         </div>
-    </header>
+        
+        <!-- ✅ Botón hamburguesa ahora es el último hijo del contenedor flex -->
+        <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menú" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -226,11 +232,8 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('✅ Service Worker registrado:', registration.scope);
-                    })
                     .catch(error => {
-                        console.error('❌ Error registrando Service Worker:', error);
+                        console.error('Error registrando Service Worker:', error);
                     });
             });
         }
@@ -255,24 +258,19 @@
         });
 
         // Cargar carruseles
-        async function loadSliders() {
-            try {
-                console.log("🚀 Cargando carruseles...");
+async function loadSliders() {
+             try {
+                 // Cargar los tres carruseles en paralelo
+                 await Promise.all([
+                     carouselManager.loadCategoryCarousel('portadas', db, openPreviewModal),
+                     carouselManager.loadCategoryCarousel('separadores', db, openPreviewModal),
+                     carouselManager.loadCategoryCarousel('cubrepolvos', db, openPreviewModal)
+                 ]);
 
-                // Cargar los tres carruseles en paralelo
-                await Promise.all([
-                    carouselManager.loadCategoryCarousel('portadas', db, openPreviewModal),
-                    carouselManager.loadCategoryCarousel('separadores', db, openPreviewModal),
-                    carouselManager.loadCategoryCarousel('cubrepolvos', db, openPreviewModal)
-                ]);
-
-                console.log("✅ Todos los carruseles cargados");
-
-            } catch (error) {
-                console.error('❌ Error cargando carruseles:', error);
-                toast.error('Error al cargar el contenido');
-            }
-        }
+             } catch (error) {
+                 toast.error('Error al cargar el contenido');
+             }
+         }
 
         // Función para manejar clic en logo
         function handleLogoClick() {

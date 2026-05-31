@@ -49,16 +49,12 @@ const PLACEHOLDER_IMAGE = `data:image/svg+xml,${encodeURIComponent(`
  * Evento de instalación - Cachea archivos estáticos
  */
 self.addEventListener('install', (event) => {
-    console.log('[SW] Instalando Service Worker...');
-    
     event.waitUntil(
         caches.open(STATIC_CACHE)
             .then((cache) => {
-                console.log('[SW] Cacheando archivos estáticos');
                 return cache.addAll(STATIC_ASSETS);
             })
             .then(() => {
-                console.log('[SW] Instalación completada');
                 return self.skipWaiting();
             })
             .catch((error) => {
@@ -71,8 +67,6 @@ self.addEventListener('install', (event) => {
  * Evento de activación - Limpia cachés antiguos
  */
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activando Service Worker...');
-    
     event.waitUntil(
         caches.keys()
             .then((cacheNames) => {
@@ -84,13 +78,11 @@ self.addEventListener('activate', (event) => {
                                    name.startsWith('covermangahd-');
                         })
                         .map((name) => {
-                            console.log('[SW] Eliminando caché antiguo:', name);
                             return caches.delete(name);
                         })
                 );
             })
             .then(() => {
-                console.log('[SW] Activación completada');
                 return self.clients.claim();
             })
     );
@@ -265,5 +257,3 @@ self.addEventListener('message', (event) => {
         );
     }
 });
-
-console.log('[SW] Service Worker cargado');

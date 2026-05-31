@@ -214,8 +214,6 @@ class CarouselManager {
      */
     async loadCategoryCarousel(category, db, onImageClick) {
         try {
-            console.log(`📂 Cargando ${category}...`);
-            
             // Intentar obtener del caché primero
             const cacheKey = `carousel_${category}`;
             let snapshot = null;
@@ -232,7 +230,6 @@ class CarouselManager {
             if (typeof firestoreCache !== 'undefined') {
                 const cachedData = firestoreCache.get(`cmhd_cache_carousel_${category}`);
                 if (cachedData) {
-                    console.log(`📦 Usando caché para ${category}`);
                     this.renderCarousel(category, cachedData, onImageClick);
                     return;
                 }
@@ -267,11 +264,9 @@ class CarouselManager {
                 firestoreCache.set(`cmhd_cache_carousel_${category}`, images, 2 * 60 * 1000); // 2 minutos
             }
 
-            this.renderCarousel(category, images, onImageClick);
+this.renderCarousel(category, images, onImageClick);
 
-            console.log(`✅ ${category} cargados:`, images.length);
-
-        } catch (error) {
+         } catch (error) {
             console.error(`❌ Error cargando ${category}:`, error);
             const slider = document.getElementById(`${category}-slider`);
             const safeMessage = sanitizeText(error.message || 'Error desconocido', 200);

@@ -107,6 +107,26 @@ body {
     height: 70px;
 }
 
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding-left: 40px;
+}
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex; /* Ya lo hereda, pero por si acaso */
+        order: 2;      /* Fuerza posición al final */
+    }
+    .nav-right {
+        order: 1;      /* El nav queda a la izquierda del botón */
+    }
+}
 .logo {
     display: flex;
     align-items: center;

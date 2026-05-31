@@ -17,6 +17,7 @@ const firebaseConfig = {
 // Inicializar Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+db.settings({ logger: () => {} }); // Silenciar logs de Firestore
 const auth = firebase.auth();
 
 // ===== CONFIGURACIÓN DE ADMIN =====
@@ -172,15 +173,12 @@ function ensureAdminAccessOrRedirect() {
  */
 async function enableFirestorePersistence() {
     try {
-        await db.enablePersistence({ synchronizeTabs: true });
-        console.log("[Firebase] Persistencia habilitada");
+        await db.enablePersistence();
     } catch (error) {
         if (error.code === 'failed-precondition') {
             console.warn("[Firebase] Persistencia no disponible: múltiples pestañas abiertas");
         } else if (error.code === 'unimplemented') {
             console.warn("[Firebase] Persistencia no soportada en este navegador");
-        } else {
-            console.error("[Firebase] Error habilitando persistencia:", error);
         }
     }
 }
