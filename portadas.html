@@ -297,6 +297,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     anime({ targets: '.search-wrapper', opacity: [0,1], translateY: [16,0], easing: 'easeOutExpo', duration: 800, delay: 280 });
     anime({ targets: '.gallery-item',   opacity: [0,1], translateY: [32,0], easing: 'easeOutExpo', duration: 800, delay: anime.stagger(60, {start: 400}) });
 });
+
+// SW update listener
+if ('serviceWorker' in navigator) {
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) { refreshing = true; window.location.reload(); }
+    });
+    navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data?.type === 'SW_UPDATED') window.location.reload();
+    });
+}
 </script>
 </body>
 </html>

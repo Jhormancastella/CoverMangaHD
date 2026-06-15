@@ -703,7 +703,38 @@ async function loadMarqueeData() {
 // ===== Service Worker =====
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => {
+                // Cada vez que hay un nuevo SW instalado, actívalo de inmediato
+                reg.addEventListener('updatefound', () => {
+                    const newSW = reg.installing;
+                    if (!newSW) return;
+                    newSW.addEventListener('statechange', () => {
+                        if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                            // Hay una versión nueva disponible → recarga silenciosa
+                            newSW.postMessage({ type: 'SKIP_WAITING' });
+                        }
+                    });
+                });
+            })
+            .catch(() => {});
+
+        // El SW activado notifica que tomó control → recarga para usar recursos frescos
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data?.type === 'SW_UPDATED') {
+                console.log('[App] Nueva versión del SW activa, recargando…');
+                window.location.reload();
+            }
+        });
+
+        // Si el SW toma control de una pestaña que no tenía SW antes → recarga
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+                refreshing = true;
+                window.location.reload();
+            }
+        });
     });
 }
 
