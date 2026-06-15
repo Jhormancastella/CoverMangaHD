@@ -12,6 +12,11 @@ class PreviewModal {
         };
         this.modal = null;
         this.initialized = false;
+        this.zoomed = false;
+        this.pan = { x: 0, y: 0, dragging: false, startX: 0, startY: 0 };
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+        this.observer = null;
     }
 
     /**
@@ -28,8 +33,17 @@ class PreviewModal {
         this.modal = document.getElementById('previewModal');
         this.initialized = true;
         
+        // Agregar botón "Descargar todas" si no existe
+        this.ensureDownloadAllButton();
+
         // Agregar eventos de teclado
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+
+        // Agregar eventos de zoom/pan
+        this.setupZoomPan();
+
+        // Agregar eventos de swipe
+        this.setupSwipe();
     }
 
     /**
@@ -61,6 +75,9 @@ class PreviewModal {
                                 <button class="preview-btn download" onclick="previewModal.download()">
                                     ⬇️ Descargar Imagen
                                 </button>
+                                <button class="preview-btn download-all" onclick="previewModal.downloadAll()">
+                                    ⬇️ Descargar Todas
+                                </button>
                                 <button class="preview-btn view-original" onclick="previewModal.viewOriginal()">
                                     👁️ Ver Original
                                 </button>
@@ -87,6 +104,26 @@ class PreviewModal {
     }
 
     /**
+     * Asegura que el botón "Descargar todas" exista
+     */
+    ensureDownloadAllButton() {
+        const actions = document.querySelector('.preview-actions');
+        if (!actions) return;
+        if (!actions.querySelector('.download-all')) {
+            const btn = document.createElement('button');
+            btn.className = 'preview-btn download-all';
+            btn.textContent = '⬇️ Descargar Todas';
+            btn.setAttribute('onclick', 'previewModal.downloadAll()');
+            const downloadBtn = actions.querySelector('.preview-btn.download');
+            if (downloadBtn) {
+                downloadBtn.after(btn);
+            } else {
+                actions.prepend(btn);
+            }
+        }
+    }
+
+    /**
      * Abre el modal con una imagen específica
      * @param {string} category - Categoría de la imagen
      * @param {number} index - Índice de la imagen
@@ -110,6 +147,17 @@ class PreviewModal {
 
         this.updateContent();
         this.modal.classList.add('active');
+
+        // Animación de apertura con anime.js
+        if (typeof anime !== 'undefined') {
+            anime({
+                targets: '.preview-modal',
+                opacity: [0, 1],
+                scale: [0.9, 1],
+                duration: 400,
+                easing: 'easeOutExpo'
+            });
+        }
         
         // Pausar carruseles
         if (typeof carouselManager !== 'undefined') {
@@ -126,7 +174,22 @@ class PreviewModal {
     close() {
         if (!this.modal) return;
         
-        this.modal.classList.remove('active');
+        if (typeof anime !== 'undefined') {
+            anime({
+                targets: '.preview-modal',
+                opacity: [1, 0],
+                scale: [1, 0.95],
+                duration: 300,
+                easing: 'easeInExpo',
+                complete: () => {
+                    this.modal.classList.remove('active');
+                    this.resetZoom();
+                }
+            });
+        } else {
+            this.modal.classList.remove('active');
+            this.resetZoom();
+        }
         
         // Reanudar carruseles
         if (typeof carouselManager !== 'undefined') {
@@ -146,25 +209,65 @@ class PreviewModal {
 
         if (!image) return;
 
-        // Actualizar imagen
+        // Actualizar imagen con lazy loading via IntersectionObserver
         const imgElement = document.getElementById('previewImage');
-        imgElement.src = image.url;
-        imgElement.alt = image.title;
+        if (imgElement) {
+            if (this.observer) {
+                this.observer.disconnect();
+            }
+            imgElement.removeAttribute('src');
+            imgElement.setAttribute('data-src', image.url);
+            imgElement.alt = image.title;
+            this.resetZoom();
+
+            const container = document.querySelector('.preview-image-container');
+            if (container && typeof IntersectionObserver !== 'undefined') {
+                this.observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const src = imgElement.getAttribute('data-src');
+                            if (src) {
+                                imgElement.src = src;
+                                imgElement.removeAttribute('data-src');
+                            }
+                            this.observer.disconnect();
+                        }
+                    });
+                }, { root: container, threshold: 0.1 });
+                this.observer.observe(imgElement);
+            } else {
+                imgElement.src = image.url;
+            }
+        }
 
         // Actualizar información
-        document.getElementById('previewImageTitle').textContent = image.title;
-        document.getElementById('previewDetailTitle').textContent = image.title;
-        document.getElementById('previewCategory').textContent = this.state.currentCategory || 'N/A';
-        document.getElementById('previewSeries').textContent = image.series || 'N/A';
-        document.getElementById('previewVolume').textContent = image.volume || 'N/A';
-        document.getElementById('previewDate').textContent = image.timestamp?.toDate?.().toLocaleDateString('es-ES') || 'N/A';
+        const titleEl = document.getElementById('previewImageTitle');
+        if (titleEl) titleEl.textContent = image.title;
+        
+        const detailTitleEl = document.getElementById('previewDetailTitle');
+        if (detailTitleEl) detailTitleEl.textContent = image.title;
+        
+        const catEl = document.getElementById('previewCategory');
+        if (catEl) catEl.textContent = this.state.currentCategory || 'N/A';
+        
+        const seriesEl = document.getElementById('previewSeries');
+        if (seriesEl) seriesEl.textContent = image.series || 'N/A';
+        
+        const volumeEl = document.getElementById('previewVolume');
+        if (volumeEl) volumeEl.textContent = image.volume || 'N/A';
+        
+        const dateEl = document.getElementById('previewDate');
+        if (dateEl) dateEl.textContent = image.timestamp?.toDate?.().toLocaleDateString('es-ES') || 'N/A';
 
         // Actualizar contador
-        document.getElementById('imageCounter').textContent = `${currentIndex + 1} de ${images.length}`;
+        const counterEl = document.getElementById('imageCounter');
+        if (counterEl) counterEl.textContent = `${currentIndex + 1} de ${images.length}`;
 
         // Actualizar estado de botones de navegación
-        document.getElementById('prevBtn').disabled = currentIndex === 0;
-        document.getElementById('nextBtn').disabled = currentIndex === images.length - 1;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        if (prevBtn) prevBtn.disabled = currentIndex === 0;
+        if (nextBtn) nextBtn.disabled = currentIndex === images.length - 1;
     }
 
     /**
@@ -195,24 +298,40 @@ class PreviewModal {
                 const result = await downloadImageWithFallback(image.url, image.title);
                 if (result.method === 'blob') {
                     if (typeof toast !== 'undefined') {
-                        toast.success('✅ Descarga iniciada');
+                        toast.success('Descarga iniciada');
                     } else {
-                        showNotification('✅ Descarga iniciada', 'success');
+                        showNotification('Descarga iniciada', 'success');
                     }
                 } else {
                     if (typeof toast !== 'undefined') {
-                        toast.info('ℹ️ Descarga iniciada (modo compatibilidad)');
+                        toast.info('Descarga iniciada (modo compatibilidad)');
                     } else {
-                        showNotification('ℹ️ Descarga iniciada (modo compatibilidad)', 'info');
+                        showNotification('Descarga iniciada (modo compatibilidad)', 'info');
                     }
                 }
             }
         } catch (error) {
             console.error('Error descargando imagen:', error);
             if (typeof toast !== 'undefined') {
-                toast.error('❌ Error al descargar la imagen');
+                toast.error('Error al descargar la imagen');
             } else {
-                showNotification('❌ Error al descargar la imagen', 'error');
+                showNotification('Error al descargar la imagen', 'error');
+            }
+        }
+    }
+
+    /**
+     * Descarga todas las imágenes de la categoría actual
+     */
+    async downloadAll() {
+        const { images, currentCategory } = this.state;
+        if (typeof downloadGalleryCategory !== 'undefined') {
+            await downloadGalleryCategory(images, currentCategory);
+        } else {
+            if (typeof toast !== 'undefined') {
+                toast.error('Función de descarga masiva no disponible');
+            } else {
+                showNotification('Función de descarga masiva no disponible', 'error');
             }
         }
     }
@@ -246,6 +365,119 @@ class PreviewModal {
             case 'ArrowRight':
                 this.navigate(1);
                 break;
+        }
+    }
+
+    /**
+     * Configura zoom/pan en la imagen
+     */
+    setupZoomPan() {
+        const img = document.getElementById('previewImage');
+        if (!img) return;
+
+        img.style.cursor = 'zoom-in';
+        img.style.transition = 'transform 0.3s ease';
+        img.addEventListener('click', () => this.toggleZoom());
+
+        // Pan con drag
+        const container = document.querySelector('.preview-image-container');
+        if (!container) return;
+
+        container.addEventListener('mousedown', (e) => {
+            if (!this.zoomed) return;
+            this.pan.dragging = true;
+            this.pan.startX = e.clientX - this.pan.x;
+            this.pan.startY = e.clientY - this.pan.y;
+            container.style.cursor = 'grabbing';
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!this.pan.dragging || !this.zoomed) return;
+            e.preventDefault();
+            this.pan.x = e.clientX - this.pan.startX;
+            this.pan.y = e.clientY - this.pan.startY;
+            this.applyTransform();
+        });
+
+        window.addEventListener('mouseup', () => {
+            this.pan.dragging = false;
+            if (container) container.style.cursor = this.zoomed ? 'grab' : 'zoom-in';
+        });
+    }
+
+    /**
+     * Alterna zoom en la imagen
+     */
+    toggleZoom() {
+        const img = document.getElementById('previewImage');
+        if (!img) return;
+
+        this.zoomed = !this.zoomed;
+        if (!this.zoomed) {
+            this.resetZoom();
+        } else {
+            img.style.cursor = 'zoom-out';
+            const container = document.querySelector('.preview-image-container');
+            if (container) container.style.cursor = 'grab';
+            this.applyTransform();
+        }
+    }
+
+    /**
+     * Aplica transform de zoom/pan
+     */
+    applyTransform() {
+        const img = document.getElementById('previewImage');
+        if (!img) return;
+        const scale = this.zoomed ? 1.5 : 1;
+        img.style.transform = `translate(${this.pan.x}px, ${this.pan.y}px) scale(${scale})`;
+        img.style.transition = this.pan.dragging ? 'none' : 'transform 0.3s ease';
+    }
+
+    /**
+     * Resetea zoom y pan
+     */
+    resetZoom() {
+        this.zoomed = false;
+        this.pan = { x: 0, y: 0, dragging: false, startX: 0, startY: 0 };
+        const img = document.getElementById('previewImage');
+        if (img) {
+            img.style.transform = 'scale(1)';
+            img.style.transition = 'transform 0.3s ease';
+            img.style.cursor = 'zoom-in';
+        }
+        const container = document.querySelector('.preview-image-container');
+        if (container) container.style.cursor = 'default';
+    }
+
+    /**
+     * Configura navegación por swipe en móvil
+     */
+    setupSwipe() {
+        const modal = document.getElementById('previewModal');
+        if (!modal) return;
+
+        modal.addEventListener('touchstart', (e) => {
+            this.touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        modal.addEventListener('touchend', (e) => {
+            this.touchEndX = e.changedTouches[0].screenX;
+            this.handleSwipe();
+        }, { passive: true });
+    }
+
+    /**
+     * Maneja swipe para navegación
+     */
+    handleSwipe() {
+        const deltaX = this.touchEndX - this.touchStartX;
+        const threshold = 50;
+
+        if (deltaX > threshold) {
+            this.navigate(-1);
+        } else if (deltaX < -threshold) {
+            this.navigate(1);
         }
     }
 }

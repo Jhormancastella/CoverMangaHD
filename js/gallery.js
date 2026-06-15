@@ -10,7 +10,8 @@ class GalleryManager {
             images: [],
             filteredImages: [],
             searchQuery: '',
-            isLoading: false
+            isLoading: false,
+            displayedCount: 0
         };
         
         this.config = {
@@ -20,7 +21,8 @@ class GalleryManager {
                     <rect fill="#ecf0f1" width="300" height="200"/>
                     <text fill="#7f8c8d" font-family="Arial" font-size="14" x="50%" y="50%" text-anchor="middle">Imagen no disponible</text>
                 </svg>
-            `)}`
+            `)}`,
+            masonryThreshold: 50
         };
     }
 
@@ -32,6 +34,7 @@ class GalleryManager {
     async loadGallery(category, db) {
         this.state.currentCategory = category;
         this.state.isLoading = true;
+        this.state.displayedCount = 0;
         
         const gallery = document.getElementById(`${category}-gallery`) || 
                         document.querySelector('.gallery-grid');
@@ -124,6 +127,9 @@ class GalleryManager {
             return;
         }
 
+        // Agregar botón de descarga de categoría al inicio
+        this.addDownloadButton(container, images);
+
         images.forEach((image, index) => {
             if (!image.url) return;
 
@@ -138,6 +144,7 @@ class GalleryManager {
             img.alt = image.title;
             img.loading = 'lazy';
             img.decoding = 'async';
+            img.style.objectFit = 'cover';
             img.onerror = () => {
                 img.src = this.config.placeholderImage;
             };
@@ -181,6 +188,85 @@ class GalleryManager {
 
             container.appendChild(item);
         });
+
+        // Agregar botón "Cargar más" si hay más de 50 imágenes
+        if (images.length > this.config.masonryThreshold) {
+            const loadMore = document.createElement('button');
+            loadMore.className = 'load-more-btn';
+            loadMore.textContent = 'Cargar más';
+            loadMore.style.gridColumn = '1 / -1';
+            loadMore.style.marginTop = '20px';
+            loadMore.addEventListener('click', () => {
+                if (typeof toast !== 'undefined') {
+                    toast.info('Todas las imágenes ya están cargadas.');
+                } else {
+                    showNotification('Todas las imágenes ya están cargadas.', 'info');
+                }
+            });
+            container.appendChild(loadMore);
+        }
+
+        // Animar entrada con anime.js
+        this.animateGrid(container);
+    }
+
+    /**
+     * Anima la entrada de los items de la galería
+     * @param {HTMLElement} container 
+     */
+    animateGrid(container) {
+        if (typeof anime !== 'undefined') {
+            anime({
+                targets: container.querySelectorAll('.gallery-item'),
+                opacity: [0, 1],
+                translateY: [20, 0],
+                delay: anime.stagger(50),
+                duration: 600,
+                easing: 'easeOutExpo'
+            });
+        }
+    }
+
+    /**
+     * Agrega botón de descarga de categoría
+     * @param {HTMLElement} container 
+     * @param {Array} images 
+     */
+    addDownloadButton(container, images) {
+        const header = container.previousElementSibling;
+        if (header && header.querySelector('.download-category-btn')) return;
+
+        const btn = document.createElement('button');
+        btn.className = 'download-category-btn';
+        btn.textContent = '⬇️ Descargar categoría';
+        btn.style.marginBottom = '16px';
+        btn.addEventListener('click', () => {
+            this.downloadCategory(images);
+        });
+
+        // Insertar antes del grid si hay un header
+        if (header && (header.classList.contains('gallery-header') || header.tagName === 'H2' || header.tagName === 'H1')) {
+            header.appendChild(btn);
+        } else {
+            container.parentNode.insertBefore(btn, container);
+        }
+    }
+
+    /**
+     * Descarga todas las imágenes de la categoría actual
+     * @param {Array} images 
+     */
+    async downloadCategory(images) {
+        const category = this.state.currentCategory || 'categoria';
+        if (typeof downloadGalleryCategory !== 'undefined') {
+            await downloadGalleryCategory(images || this.state.images, category);
+        } else {
+            if (typeof toast !== 'undefined') {
+                toast.error('Función de descarga masiva no disponible');
+            } else {
+                showNotification('Función de descarga masiva no disponible', 'error');
+            }
+        }
     }
 
     /**

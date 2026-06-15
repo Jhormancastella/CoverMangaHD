@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cubre Polvos de Manga HD | CoverMangaHD</title>
-    
-    <!-- SEO Meta Tags -->
+
+    <!-- SEO -->
     <meta name="description" content="Galeria de cubre polvos de manga en alta calidad para descargar e imprimir. Coleccion organizada por serie en CoverMangaHD.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Jhorman Jesús Castellanos Morales">
-    
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://covermangahd.qd.je/cubrepolvos.html">
-    
+
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_ES">
@@ -21,170 +19,276 @@
     <meta property="og:description" content="Explora y descarga cubre polvos de manga en alta calidad.">
     <meta property="og:url" content="https://covermangahd.qd.je/cubrepolvos.html">
     <meta property="og:image" content="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Cubre Polvos de Manga HD | CoverMangaHD">
     <meta name="twitter:description" content="Descarga cubre polvos de manga en alta calidad.">
     <meta name="twitter:image" content="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png">
-    
+
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2c3e50">
-    
+    <meta name="theme-color" content="#0f172a">
+
     <!-- Favicon -->
     <link rel="icon" href="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" type="image/png">
-    
+
     <!-- Preconnect -->
     <link rel="preconnect" href="https://firestore.googleapis.com">
     <link rel="preconnect" href="https://storage.googleapis.com">
-    
-    <!-- Estilos CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonts & Libs -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/notifications.css">
-    
-    <!-- JSON-LD Structured Data -->
+
+    <!-- JSON-LD -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "Cubre Polvos de Manga HD",
-      "url": "https://covermangahd.qd.je/cubrepolvos.html",
-      "isPartOf": {
-        "@type": "WebSite",
-        "name": "CoverMangaHD",
-        "url": "https://covermangahd.qd.je/"
-      },
-      "inLanguage": "es"
-    }
+    {"@context":"https://schema.org","@type":"CollectionPage","name":"Cubre Polvos de Manga HD","url":"https://covermangahd.qd.je/cubrepolvos.html","isPartOf":{"@type":"WebSite","name":"CoverMangaHD","url":"https://covermangahd.qd.je/"},"inLanguage":"es"}
+    </script>
+
+    <!-- Theme init (prevent flash) -->
+    <script>
+        (function(){
+            var t = localStorage.getItem('cmhd_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+            var l = localStorage.getItem('cmhd_lang') || 'es';
+            document.documentElement.setAttribute('lang', l);
+        })();
     </script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo" onclick="window.location.href='index.html'" role="button" tabindex="0" aria-label="Ir al inicio">
-                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" alt="CoverManga Logo" class="logo-img">
-                <span>CoverManga</span>
-            </div>
-            
-            <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menú" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            
-            <nav>
-                <ul class="nav-menu" role="menubar">
-                    <li role="none"><a href="index.html" role="menuitem">Inicio</a></li>
-                    <li role="none"><a href="portadas.html" role="menuitem">Portadas</a></li>
-                    <li role="none"><a href="separadores.html" role="menuitem">Separadores</a></li>
-                    <li role="none"><a href="cubrepolvos.html" class="active" role="menuitem">Cubre Polvos</a></li>
-                    <li role="none"><button class="admin-btn" onclick="openAdminModal()" aria-label="Panel de administración">AD</button></li>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="mainHeader">
+    <div class="nav-container">
+        <a href="index.html" class="logo" aria-label="CoverMangaHD — Inicio / Home">
+            <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/512px/1f3b4_color.png" alt="Logo" class="logo-img">
+            <span>CoverManga</span>
+        </a>
+
+        <div class="nav-right">
+            <nav aria-label="Navegación principal / Main navigation">
+                <ul class="nav-menu" id="navMenu" role="menubar">
+                    <li role="none"><a href="index.html" role="menuitem"><span data-i18n="nav.home">Inicio</span></a></li>
+                    <li role="none"><a href="portadas.html" role="menuitem"><span data-i18n="nav.covers">Portadas</span></a></li>
+                    <li role="none"><a href="separadores.html" role="menuitem"><span data-i18n="nav.bookmarks">Separadores</span></a></li>
+                    <li role="none"><a href="cubrepolvos.html" class="active" role="menuitem"><span data-i18n="nav.dustcovers">Cubre Polvos</span></a></li>
+                    <li role="none"><button class="admin-btn" onclick="openAdminModal()"><span data-i18n="nav.admin">Admin</span></button></li>
                 </ul>
             </nav>
-        </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            <h1 class="section-title">🛡️ Galería de Cubre Polvos</h1>
-            <p style="text-align: center; margin-bottom: 30px; color: var(--text-color);">
-                Descubre nuestra colección de cubre polvos de manga
-            </p>
-            
-            <!-- Barra de búsqueda -->
-            <div class="search-bar" style="max-width: 500px; margin: 0 auto 30px;">
-                <input type="text" 
-                       id="searchInput" 
-                       placeholder="Buscar por título o serie..." 
-                       style="width: 100%; padding: 12px 20px; border: 2px solid var(--border-color); border-radius: 25px; font-size: 16px;"
-                       aria-label="Buscar cubre polvos">
-            </div>
-            
-            <div class="gallery-grid" id="cubrepolvos-gallery" role="region" aria-label="Galería de cubre polvos">
-                <div class="loading-container">
-                    <div class="loading-spinner"></div>
-                    <p class="loading-text">Cargando cubre polvos...</p>
+            <div class="header-controls">
+                <div class="lang-toggle" role="group" aria-label="Language / Idioma">
+                    <button class="lang-btn" id="btnLangES" onclick="setLang('es')">ES</button>
+                    <button class="lang-btn" id="btnLangEN" onclick="setLang('en')">EN</button>
                 </div>
+                <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
             </div>
         </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 Derechos reservados a Jhorman Jesús Castellanos Morales</p>
-            <p class="acknowledgments">Agradecimientos especiales a nuestra comunidad de amantes del manga</p>
+        <button class="menu-toggle" id="mobileMenu" aria-label="Abrir menú / Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main class="main-content">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>🛡️ <span data-i18n="page.title">Galería de Cubre Polvos</span></h1>
+            <p data-i18n="page.subtitle">Descubre y descarga cubre polvos de manga en alta definición.</p>
         </div>
-    </footer>
 
-    <!-- Modal Admin -->
-    <div id="adminModal" class="modal" role="dialog" aria-labelledby="adminModalTitle" aria-modal="true">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeAdminModal()" aria-label="Cerrar modal">&times;</button>
-            <div id="loginForm" class="login-form">
-                <h2 id="adminModalTitle">🔐 Acceso Administración</h2>
-                <div class="form-group">
-                    <label for="adminEmail" class="sr-only">Correo de administrador</label>
-                    <input type="email" id="adminEmail" placeholder="Correo de administrador" autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <label for="adminPassword" class="sr-only">Contraseña</label>
-                    <input type="password" id="adminPassword" placeholder="Contraseña de administrador" autocomplete="current-password">
-                </div>
-                <button class="submit-btn" onclick="loginAdmin()">Ingresar</button>
+        <div class="search-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                data-i18n-placeholder="search.placeholder"
+                placeholder="Buscar por título o serie…"
+                aria-label="Buscar cubre polvos / Search dust covers">
+        </div>
+
+        <div class="gallery-grid" id="cubrepolvos-gallery" role="region" aria-label="Galería de cubre polvos / Dust covers gallery">
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <p class="loading-text" data-i18n="loading.dustcovers">Cargando cubre polvos…</p>
             </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Jhorman Jesús Castellanos Morales</p>
+        <p class="acknowledgments" data-i18n="footer.acknowledgments">
+            Agradecimientos a nuestra comunidad de amantes del manga · Thanks to our manga community
+        </p>
+    </div>
+</footer>
+
+<!-- ===== ADMIN MODAL ===== -->
+<div id="adminModal" class="modal" role="dialog" aria-labelledby="adminModalTitle" aria-modal="true">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeAdminModal()" aria-label="Cerrar / Close">&times;</button>
+        <div id="loginForm" class="login-form">
+            <h2 id="adminModalTitle">🔐 <span data-i18n="modal.adminTitle">Acceso Administración</span></h2>
+            <div class="form-group">
+                <label for="adminEmail" class="sr-only" data-i18n="modal.email">Correo</label>
+                <input type="email" id="adminEmail" autocomplete="email"
+                    data-i18n-placeholder="modal.emailPlaceholder" placeholder="Correo de administrador">
+            </div>
+            <div class="form-group">
+                <label for="adminPassword" class="sr-only" data-i18n="modal.password">Contraseña</label>
+                <input type="password" id="adminPassword" autocomplete="current-password"
+                    data-i18n-placeholder="modal.passwordPlaceholder" placeholder="Contraseña de administrador">
+            </div>
+            <button class="submit-btn" onclick="loginAdmin()" data-i18n="modal.loginBtn">Ingresar</button>
         </div>
     </div>
+</div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-    
-    <!-- Scripts de la aplicación -->
-    <script src="firebase-config.js"></script>
-    <script src="security-utils.js"></script>
-    <script src="download-utils.js"></script>
-    <script src="js/cache.js"></script>
-    <script src="js/notifications.js"></script>
-    <script src="js/gallery.js"></script>
-    <script src="js/preview-modal.js"></script>
-    <script src="js/admin-auth.js"></script>
+<!-- ===== SCRIPTS ===== -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
-    <!-- Script principal -->
-    <script>
-        // Navegación móvil
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navMenu = document.querySelector('.nav-menu');
-        
-        mobileMenu.addEventListener('click', function() {
-            this.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            this.setAttribute('aria-expanded', navMenu.classList.contains('active'));
-        });
+<script src="firebase-config.js"></script>
+<script src="security-utils.js"></script>
+<script src="download-utils.js"></script>
+<script src="js/cache.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/preview-modal.js"></script>
+<script src="js/admin-auth.js"></script>
 
-        // Búsqueda con debounce
-        let searchTimeout;
-        const searchInput = document.getElementById('searchInput');
-        
-        searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                galleryManager.search(e.target.value);
-            }, 300);
-        });
+<script>
+// ===== i18n =====
+const translations = {
+    es: {
+        "nav.home": "Inicio", "nav.covers": "Portadas", "nav.bookmarks": "Separadores",
+        "nav.dustcovers": "Cubre Polvos", "nav.admin": "Admin",
+        "page.title": "Galería de Cubre Polvos",
+        "page.subtitle": "Descubre y descarga cubre polvos de manga en alta definición.",
+        "search.placeholder": "Buscar por título o serie…",
+        "loading.dustcovers": "Cargando cubre polvos…",
+        "footer.acknowledgments": "Agradecimientos a nuestra comunidad de amantes del manga",
+        "modal.adminTitle": "Acceso Administración",
+        "modal.email": "Correo", "modal.emailPlaceholder": "Correo de administrador",
+        "modal.password": "Contraseña", "modal.passwordPlaceholder": "Contraseña de administrador",
+        "modal.loginBtn": "Ingresar"
+    },
+    en: {
+        "nav.home": "Home", "nav.covers": "Covers", "nav.bookmarks": "Bookmarks",
+        "nav.dustcovers": "Dust Covers", "nav.admin": "Admin",
+        "page.title": "Dust Covers Gallery",
+        "page.subtitle": "Browse and download manga dust covers in high definition.",
+        "search.placeholder": "Search by title or series…",
+        "loading.dustcovers": "Loading dust covers…",
+        "footer.acknowledgments": "Thanks to our manga community",
+        "modal.adminTitle": "Admin Access",
+        "modal.email": "Email", "modal.emailPlaceholder": "Admin email",
+        "modal.password": "Password", "modal.passwordPlaceholder": "Admin password",
+        "modal.loginBtn": "Sign in"
+    }
+};
 
-        // Cargar galería
-        async function loadGallery() {
-            await galleryManager.loadGallery('cubrepolvos', db);
-        }
+function applyLang(lang) {
+    const t = translations[lang] || translations['es'];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+    });
+    document.getElementById('btnLangES').classList.toggle('active', lang === 'es');
+    document.getElementById('btnLangEN').classList.toggle('active', lang === 'en');
+    document.documentElement.setAttribute('lang', lang);
+    localStorage.setItem('cmhd_lang', lang);
+}
 
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', loadGallery);
-    </script>
+function setLang(lang) { applyLang(lang); }
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('cmhd_theme', theme);
+    const sun  = document.getElementById('iconSun');
+    const moon = document.getElementById('iconMoon');
+    if (theme === 'dark') { sun.style.display = 'block'; moon.style.display = 'none'; }
+    else                  { sun.style.display = 'none';  moon.style.display = 'block'; }
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+window.addEventListener('scroll', () => {
+    document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+const mobileMenu = document.getElementById('mobileMenu');
+const navMenu    = document.getElementById('navMenu');
+
+mobileMenu.addEventListener('click', function () {
+    this.classList.toggle('active');
+    navMenu.classList.toggle('active');
+    this.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+});
+
+navMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        navMenu.classList.remove('active');
+        mobileMenu.setAttribute('aria-expanded', 'false');
+    });
+});
+
+let searchTimeout;
+document.getElementById('searchInput').addEventListener('input', e => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => galleryManager.search(e.target.value), 300);
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+    applyTheme(localStorage.getItem('cmhd_theme') || 'dark');
+    applyLang(localStorage.getItem('cmhd_lang')  || 'es');
+
+    await galleryManager.loadGallery('cubrepolvos', db);
+
+    anime({ targets: '.header',         opacity: [0,1], translateY: [-16,0], easing: 'easeOutExpo', duration: 900 });
+    anime({ targets: '.page-header',    opacity: [0,1], translateY: [24,0],  easing: 'easeOutExpo', duration: 900, delay: 150 });
+    anime({ targets: '.search-wrapper', opacity: [0,1], translateY: [16,0],  easing: 'easeOutExpo', duration: 800, delay: 280 });
+    anime({ targets: '.gallery-item',   opacity: [0,1], translateY: [32,0],  easing: 'easeOutExpo', duration: 800, delay: anime.stagger(60, {start: 400}) });
+});
+</script>
 </body>
 </html>
