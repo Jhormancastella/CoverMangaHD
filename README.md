@@ -1,215 +1,184 @@
 # 🎴 CoverMangaHD
 
-## Url
-
 <div align="center">
 
-Explóralo y dime qué te parece.
+[![Ver CoverMangaHD en Vivo](https://img.shields.io/badge/🎴_Ver_CoverMangaHD_En_Vivo-Click_Aquí-2EA043?style=for-the-badge&logo=google-chrome&logoColor=white)](https://covermangahd.qd.je/)
 
-[![Ver CoverMangaHD en Vivo](https://img.shields.io/badge/🎴_Ver_CoverMangaHD_En_Vivo-Click_Aquí-2EA043?style=for-the-badge&logo=google-chrome&logoColor=white)](https://jhormancastella.github.io/CoverMangaHD/)
+**Portadas · Cubrepolvos · Separadores para fans del manga**
+
 </div>
 
+---
 
-## Portadas + Cubrepolvos y Separadores para Fans del Manga.
+## ¿Qué es CoverMangaHD?
 
-**-CoverMangaHD-** es un repositorio el cual no almacena las imagenes 
-**portadas, cubrepolvos y separadores imprimibles** en alta calidad para preservar, restaurar o personalizar tus mangas, manhwas y novelas ligeras. Inspirado en [Mokuton Covers](https://mokuton.com/covers/index.php), pero con mejor organización, visualización interactiva y diseño adaptado a todos los dispositivos.
+**CoverMangaHD** es una galería web de recursos imprimibles en alta calidad para coleccionistas de manga, manhwa y novelas ligeras. Permite descargar portadas, cubrepolvos y separadores para restaurar, personalizar o mejorar tus colecciones físicas.
+
+Inspirado en [Mokuton Covers](https://mokuton.com/covers/index.php), pero con mejor organización, diseño moderno y experiencia interactiva.
 
 ---
 
 ## 🚀 Características
 
-- ✅ **PWA (Progressive Web App)** - Instalable en dispositivos móviles
-- ✅ **Offline Support** - Funciona sin conexión gracias al Service Worker
-- ✅ **Sistema de Caché** - Mejora el rendimiento con localStorage
-- ✅ **Notificaciones Toast** - Feedback visual al usuario
-- ✅ **SEO Optimizado** - Metadatos, JSON-LD, sitemap
-- ✅ **Responsive Design** - Adaptado a todos los dispositivos
-- ✅ **Accesibilidad** - ARIA labels, navegación por teclado
-- ✅ **Código Modular** - CSS y JS organizados en archivos separados
+| Característica | Detalle |
+|---|---|
+| **PWA** | Instalable en móvil y escritorio |
+| **Offline** | Service Worker con estrategia Stale-While-Revalidate |
+| **Modo claro / oscuro** | Toggle en header, persiste en localStorage |
+| **Idioma ES / EN** | Switch en header, i18n completo |
+| **Marquee 3 columnas** | Animación CSS pura por categoría, hover pausa |
+| **Preview modal** | Zoom, pan, navegación ←→, descarga, swipe táctil |
+| **Búsqueda** | Debounce, filtra en tiempo real |
+| **Caché inteligente** | localStorage con TTL, limpieza automática |
+| **SEO** | Canonical, Open Graph, Twitter Card, JSON-LD |
+| **Accesibilidad** | ARIA labels, navegación por teclado |
+| **Auto-actualización** | SW notifica y recarga cuando hay nueva versión |
 
 ---
 
-## 📂 Estructura del Proyecto
+## 🌐 URL del sitio
+
+```
+https://covermangahd.qd.je/
+```
+
+### Páginas
+
+| Página | URL |
+|---|---|
+| Inicio | https://covermangahd.qd.je/ |
+| Portadas | https://covermangahd.qd.je/portadas.html |
+| Separadores | https://covermangahd.qd.je/separadores.html |
+| Cubre Polvos | https://covermangahd.qd.je/cubrepolvos.html |
+| Admin *(privado)* | https://covermangahd.qd.je/admin.html |
+
+---
+
+## 📂 Estructura del proyecto
 
 ```
 CoverMangaHD/
-├── index.html              # Página principal con carruseles
+├── index.html              # Inicio — hero + marquee 3 columnas
 ├── portadas.html           # Galería de portadas
 ├── separadores.html        # Galería de separadores
 ├── cubrepolvos.html        # Galería de cubre polvos
-├── admin.html              # Panel de administración
-├── style.css               # Estilos base
+├── admin.html              # Panel de administración (privado)
+├── test-marquee.html       # Página de prueba del marquee
+│
+├── style.css               # Variables CSS tema claro/oscuro + componentes
 ├── css/
-│   ├── carousel.css        # Estilos del carrusel
-│   ├── modal.css           # Estilos de modales
-│   └── notifications.css   # Estilos de notificaciones toast
+│   ├── animations.css      # Keyframes y clases .animate-*
+│   ├── carousel.css        # Estilos carrusel horizontal (galerías)
+│   ├── modal.css           # Admin modal + preview modal
+│   └── notifications.css   # Toast notifications
+│
 ├── js/
-│   ├── carousel.js         # Lógica de carruseles
-│   ├── gallery.js          # Lógica de galerías
-│   ├── preview-modal.js    # Modal de vista previa
-│   ├── notifications.js    # Sistema de notificaciones
-│   ├── cache.js            # Sistema de caché
-│   └── admin-auth.js       # Autenticación admin
-├── firebase-config.js      # Configuración de Firebase
-├── security-utils.js       # Utilidades de seguridad
-├── download-utils.js       # Utilidades de descarga
+│   ├── carousel.js         # CarouselManager — infinite loop sin rebobinado
+│   ├── gallery.js          # GalleryManager — búsqueda, caché, lazy load
+│   ├── preview-modal.js    # PreviewModal — zoom, pan, descarga, swipe
+│   ├── notifications.js    # ToastNotification — success/error/warning/info
+│   ├── cache.js            # FirestoreCache — localStorage con TTL
+│   └── admin-auth.js       # AdminAuth — Firebase Auth, allowlist
+│
+├── firebase-config.js      # Config Firebase + helpers auth
+├── security-utils.js       # Sanitización XSS, validación de datos
+├── download-utils.js       # Descarga individual y masiva (JSZip)
+│
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service Worker
-├── firestore.rules         # Reglas de Firestore
-├── storage.rules           # Reglas de Storage
-├── robots.txt              # Configuración para bots
-└── sitemap.xml             # Mapa del sitio
+├── sw.js                   # Service Worker — caché + auto-update
+├── firestore.rules         # Reglas Firestore (lectura pública, escritura admin)
+├── storage.rules           # Reglas Storage (max 15MB, solo imágenes)
+├── robots.txt              # /admin.html bloqueado a crawlers
+├── sitemap.xml             # Mapa del sitio
+└── CNAME                   # Dominio personalizado
 ```
 
 ---
 
-## 🔧 Seguridad y Configuración de Admin
+## � Configuración de Admin
 
-Este proyecto usa Firebase Auth para acceder al panel `admin.html`.
+El panel `/admin.html` está protegido con Firebase Auth.
 
-### Pasos de configuración:
-
-1. Crea un usuario admin en Firebase Authentication (Email/Password).
-2. Reemplaza el correo de allowlist en `firebase-config.js`:
+1. Crea un usuario en Firebase Authentication (Email/Password)
+2. Agrega el correo a la allowlist en `firebase-config.js`:
    ```javascript
-   ADMIN_CONFIG.allowlist = ["tu_correo_admin@dominio.com"]
+   ADMIN_CONFIG.allowlist = ["tu_correo@dominio.com"]
    ```
-3. Publica reglas de Firestore usando `firestore.rules`.
-4. Publica reglas de Storage usando `storage.rules`.
-
-### Recomendaciones de seguridad:
-
-- Configura restricciones de dominio en Firebase Console
-- Considera usar Firebase App Check para evitar abuso
-- En producción, usa Firebase Custom Claims en lugar de email allowlist
-
----
-
-## 📥 Descarga de Imágenes (UX)
-
-El botón de descarga implementa un sistema inteligente:
-
-1. **Intenta primero descarga real por `blob`** (mejor experiencia)
-2. **Si el origen bloquea CORS**, usa un fallback de enlace directo
-
-Esto mejora compatibilidad entre navegadores y distintos hostings de imágenes.
-
----
-
-## 🔍 SEO e Indexación en Google
-
-### Archivos SEO incluidos:
-
-- `robots.txt` - Control de indexación
-- `sitemap.xml` - Mapa del sitio
-- Metadatos `title`, `description`, `canonical`, Open Graph y Twitter
-- Datos estructurados JSON-LD (WebSite, Organization, CollectionPage)
-- `admin.html` marcado con `noindex`
-
-### Pasos para completar en Google:
-
-1. Publica/deploya los cambios.
-2. Abre [Google Search Console](https://search.google.com/search-console) y verifica la propiedad.
-3. En Search Console, envía este sitemap:
+3. Despliega las reglas de Firestore y Storage:
+   ```bash
+   firebase deploy --only firestore:rules
+   firebase deploy --only storage:rules
    ```
-   https://jhormancastella.github.io/CoverMangaHD/sitemap.xml
-   ```
-4. Usa "Inspección de URL" y solicita indexación para cada página.
+
+> En producción se recomienda migrar a Firebase Custom Claims en lugar de email allowlist.
 
 ---
 
-## ✨ ¿Por qué CoverManga?
+## 🔄 Actualización automática
 
-El nombre directo lo que se quiere lograr es que los fans del manga tengan en su mejor estado sus mangas y demás colecciones.
+El Service Worker usa `CACHE_VERSION` para invalidar caché en todos los usuarios al hacer deploy.
 
----
+Para forzar recarga en todos los clientes, incrementa la versión en `sw.js`:
 
-## 🎯 Características y Beneficios
+```js
+const CACHE_VERSION = 'v7'; // era v6 → cambiar a v7
+```
 
-| Característica                  | Beneficio                                             |
-| --------------------------------|------------------------------------------------------ |
-| 🖼️ **Portadas HD**             | Restaura ediciones dañadas o personaliza tu colección |
-| 🛡️ **Cubrepolvos imprimibles** | Protege tomos del polvo y desgaste diario             |
-| 📏 **Separadores cada manga**  | Ordena tu colección con estilo y coherencia           |
-| ↺ **Multi-formato**            | Compatible con manga, manhwa y novelas ligeras        |
-| 🎨 **Recursos editables**      | Personaliza a tu gusto con PSD y AI                   |
+Al detectar un nuevo SW, la página recarga automáticamente sin que el usuario haga nada.
 
 ---
 
-## 🌐 Inspiración Visual
-
-CoverMangaHD toma lo mejor de [Mokuton Covers](https://mokuton.com/covers/index.php) y lo eleva con:
-
-* ✅ **Navegación intuitiva** por series y categorías
-* ✅ **Previsualizaciones interactivas de portadas**
-* ✅ **Sistema de búsqueda inteligente**
-* ✅ **Diseño responsive** (móvil y escritorio)
-* ✅ **Paleta de colores moderna y elegante**
-
----
-
-## 📈 Tecnologías Utilizadas
+## � Tecnologías
 
 ### Frontend
-- HTML5 semántico
-- CSS3 con variables CSS
+- HTML5 semántico + Tailwind CSS (CDN)
+- CSS3 con variables (`--var`) para tema claro/oscuro
 - JavaScript ES6+ modular
-- PWA (Service Worker, Web App Manifest)
+- Anime.js para animaciones de entrada
+- PWA — Service Worker + Web App Manifest
 
 ### Backend & Database
 - Firebase Authentication
 - Cloud Firestore
 - Firebase Storage
 
-### Herramientas
-- GitHub Pages (hosting)
-- Google Search Console (SEO)
+### Hosting
+- GitHub Pages con dominio personalizado (`covermangahd.qd.je`)
 
 ---
 
-## 🌈 Estilo Visual (Guía de Diseño)
+## 🎨 Diseño
 
-### Paleta principal:
+### Tema oscuro (default)
+- Fondo: `#0f172a` (slate-900)
+- Superficie: `#1e293b` (slate-800)
+- Acento: `#f43f5e` (rose-500)
 
-* Fondo claro: `#f8f9fa`
-* Primario: `#2c3e50`
-* Secundario: `#3498db`
-* Acento: `#e74c3c`
-* Texto: `#333`
+### Tema claro
+- Fondo: `#f8fafc`
+- Superficie: `#ffffff`
+- Acento: `#e11d48` (rose-600)
 
-### Tipografía:
-
-* Títulos: Segoe UI Bold
-* Texto general: Segoe UI
-
----
-
-## 📱 PWA Installation
-
-CoverMangaHD se puede instalar como una aplicación en tu dispositivo:
-
-1. Visita el sitio en Chrome o Edge
-2. Haz clic en el icono de instalación en la barra de direcciones
-3. O usa el menú "Instalar aplicación"
+### Tipografía
+- Títulos: **Poppins** (600–800)
+- Texto: **Inter** (400–600)
 
 ---
 
-## 🤝 Contribuir
+## 📱 Instalar como PWA
 
-¡Las contribuciones son bienvenidas! Por favor:
-
-1. Haz fork del repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/NuevaCaracteristica`)
-3. Commit tus cambios (`git commit -m 'Agrega nueva característica'`)
-4. Push a la rama (`git push origin feature/NuevaCaracteristica`)
-5. Abre un Pull Request
+1. Abre [covermangahd.qd.je](https://covermangahd.qd.je/) en Chrome o Edge
+2. Haz clic en el ícono de instalación en la barra de direcciones
+3. O: menú del navegador → "Instalar aplicación"
 
 ---
 
-## 📄 Licencia
+## 🔍 SEO
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+- `sitemap.xml` enviado a Google Search Console: `https://covermangahd.qd.je/sitemap.xml`
+- Canonical, Open Graph y Twitter Card en todas las páginas
+- JSON-LD structured data (WebSite, Organization, CollectionPage)
+- `/admin.html` marcado con `noindex, nofollow`
 
 ---
 
@@ -221,6 +190,6 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 <div align="center">
 
-**⭐ Si te gusta este proyecto, dale una estrella! ⭐**
+⭐ Si te gusta el proyecto, dale una estrella ⭐
 
 </div>

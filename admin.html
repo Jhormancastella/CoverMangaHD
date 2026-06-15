@@ -10,7 +10,7 @@
     <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://jhormancastella.github.io/CoverMangaHD/admin.html">
+    <link rel="canonical" href="https://covermangahd.qd.je/admin.html">
     
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
@@ -325,6 +325,86 @@
         </div>
     </footer>
 
+    <!-- ── Edit Image Modal ── -->
+    <div id="editModal" class="hidden fixed inset-0 z-[2000] items-center justify-center bg-black/75 backdrop-blur-sm">
+        <div id="editModalContent" class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-6 relative">
+            <button onclick="closeEditModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-all text-lg">&times;</button>
+            <h3 class="font-poppins font-bold text-xl mb-6">✏️ Editar Imagen</h3>
+
+            <input type="hidden" id="editImageId">
+
+            <!-- Preview -->
+            <div class="mb-5">
+                <img id="editUrlPreview" src="" alt="Preview" class="w-full h-40 object-cover rounded-xl border border-slate-700 mb-3 hidden">
+            </div>
+
+            <div class="space-y-4">
+                <!-- URL -->
+                <div id="editUrlRow">
+                    <label class="block text-sm font-medium text-slate-300 mb-1">URL de la imagen</label>
+                    <input type="url" id="editUrl"
+                        class="w-full bg-slate-900/50 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition-all"
+                        placeholder="https://ejemplo.com/nueva-imagen.jpg">
+                    <p class="text-xs text-slate-500 mt-1">Cambia la URL para reemplazar la imagen. Deja vacío para conservar la actual.</p>
+                </div>
+
+                <!-- Título -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Título <span class="text-rose-400">*</span></label>
+                    <input type="text" id="editTitle" required maxlength="120"
+                        class="w-full bg-slate-900/50 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition-all"
+                        placeholder="Ej: Naruto Tomo 1 - Portada">
+                </div>
+
+                <!-- Categoría -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Categoría <span class="text-rose-400">*</span></label>
+                    <select id="editCategory" required
+                        class="w-full bg-slate-900/50 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition-all">
+                        <option value="">Seleccionar categoría</option>
+                        <option value="portadas">Portadas</option>
+                        <option value="separadores">Separadores</option>
+                        <option value="cubrepolvos">Cubre Polvos</option>
+                    </select>
+                </div>
+
+                <!-- Serie + Volumen -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Serie</label>
+                        <input type="text" id="editSeries" maxlength="120"
+                            class="w-full bg-slate-900/50 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition-all"
+                            placeholder="Ej: Naruto">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Volumen</label>
+                        <input type="number" id="editVolume" min="1" max="9999"
+                            class="w-full bg-slate-900/50 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition-all"
+                            placeholder="Ej: 1">
+                    </div>
+                </div>
+
+                <!-- Destacado -->
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" id="editFeatured" class="w-5 h-5 rounded border-slate-600 bg-slate-800/50 text-rose-500 focus:ring-rose-500/20 cursor-pointer">
+                    <label for="editFeatured" class="text-sm text-slate-300 cursor-pointer">Destacar en página principal</label>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-3 mt-6">
+                <button onclick="closeEditModal()"
+                    class="flex-1 px-4 py-3 rounded-xl border border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all text-sm font-medium">
+                    Cancelar
+                </button>
+                <button id="editSaveBtn" onclick="saveEdit()"
+                    class="flex-1 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white px-4 py-3 rounded-xl text-sm font-medium shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    💾 Guardar cambios
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
@@ -550,6 +630,9 @@
                         <div class="flex gap-2">
                             <button class="toggle-featured flex-1 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-xl text-sm font-medium transition-all" onclick="toggleFeatured('${data.id}', ${!safeData.featured})">
                                 ${safeData.featured ? '⭐ Quitar' : '☆ Destacar'}
+                            </button>
+                            <button class="edit-btn flex-1 bg-indigo-500/10 hover:bg-indigo-500 text-indigo-400 hover:text-white px-3 py-2 rounded-xl text-sm font-medium transition-all border border-indigo-500/20 hover:border-indigo-500" onclick="openEditModal('${data.id}')">
+                                ✏️ Editar
                             </button>
                             <button class="delete-btn flex-1 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white px-3 py-2 rounded-xl text-sm font-medium transition-all border border-rose-500/20 hover:border-rose-500" onclick="deleteImage('${data.id}', '${safeData.url}', '${safeData.type}')">
                                 🗑️ Eliminar
@@ -798,7 +881,6 @@
             }
 
             try {
-                // Si es de storage, eliminar también del Storage
                 if (type === 'storage') {
                     try {
                         const storageRef = firebase.storage().refFromURL(imageUrl);
@@ -808,16 +890,10 @@
                     }
                 }
 
-                // Eliminar de Firestore
                 await db.collection('imagenes').doc(imageId).delete();
-
                 toast.success('Imagen eliminada correctamente');
                 
-                // Invalidar caché
-                if (typeof firestoreCache !== 'undefined') {
-                    firestoreCache.clearAll();
-                }
-                
+                if (typeof firestoreCache !== 'undefined') firestoreCache.clearAll();
                 loadStats();
                 loadImagesManagement();
             } catch (error) {
@@ -825,6 +901,127 @@
                 toast.error('Error al eliminar: ' + error.message);
             }
         }
+
+        // ── Editar imagen ──────────────────────────────────────────────────────
+
+        function openEditModal(imageId) {
+            const data = allImages.find(img => img.id === imageId);
+            if (!data) { toast.error('Imagen no encontrada'); return; }
+
+            // Fill form fields
+            document.getElementById('editImageId').value      = imageId;
+            document.getElementById('editTitle').value        = data.title    || '';
+            document.getElementById('editCategory').value     = data.category || '';
+            document.getElementById('editSeries').value       = data.series   || '';
+            document.getElementById('editVolume').value       = data.volume   || '';
+            document.getElementById('editFeatured').checked   = !!data.featured;
+
+            // URL field — pre-fill with current URL (editable only for url-type)
+            const urlInput   = document.getElementById('editUrl');
+            const urlPreview = document.getElementById('editUrlPreview');
+            const urlRow     = document.getElementById('editUrlRow');
+            urlInput.value   = data.url || '';
+
+            // Hide URL field for storage-type images (URL is managed by Firebase)
+            if (data.type === 'storage') {
+                urlRow.style.display = 'none';
+            } else {
+                urlRow.style.display = 'block';
+            }
+
+            // Preview
+            if (data.url) {
+                urlPreview.src = data.url;
+                urlPreview.classList.remove('hidden');
+            } else {
+                urlPreview.classList.add('hidden');
+            }
+
+            // Live preview when URL changes
+            urlInput.oninput = function() {
+                const val = this.value.trim();
+                if (val) {
+                    urlPreview.src = val;
+                    urlPreview.classList.remove('hidden');
+                } else {
+                    urlPreview.classList.add('hidden');
+                }
+            };
+
+            // Show modal
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            anime({ targets: '#editModalContent', opacity: [0,1], scale: [0.93,1], duration: 280, easing: 'easeOutExpo' });
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            anime({
+                targets: '#editModalContent',
+                opacity: [1,0], scale: [1,0.93],
+                duration: 200, easing: 'easeInExpo',
+                complete: () => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            });
+        }
+
+        async function saveEdit() {
+            const imageId  = document.getElementById('editImageId').value;
+            const title    = sanitizeText(document.getElementById('editTitle').value.trim(), 120);
+            const category = sanitizeCategory(document.getElementById('editCategory').value);
+            const series   = sanitizeText(document.getElementById('editSeries').value.trim(), 120);
+            const volume   = sanitizeText(document.getElementById('editVolume').value.trim(), 20);
+            const featured = document.getElementById('editFeatured').checked;
+            const newUrl   = sanitizeImageUrl(document.getElementById('editUrl').value.trim());
+
+            if (!title || !category) {
+                toast.warning('El título y la categoría son obligatorios');
+                return;
+            }
+
+            // Validate new URL if provided
+            if (newUrl && !newUrl.match(/\.(jpg|jpeg|png|gif|webp|avif)(\?.*)?$/i)) {
+                toast.warning('La URL debe apuntar a una imagen (jpg, png, gif, webp)');
+                return;
+            }
+
+            const saveBtn = document.getElementById('editSaveBtn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Guardando…';
+
+            try {
+                const updateData = { title, category, series, volume, featured };
+                // Only update URL if the field was visible and has a value
+                if (newUrl) updateData.url = newUrl;
+
+                await db.collection('imagenes').doc(imageId).update(updateData);
+
+                // Update local array so UI reflects change immediately
+                const localIdx = allImages.findIndex(img => img.id === imageId);
+                if (localIdx !== -1) Object.assign(allImages[localIdx], updateData);
+
+                toast.success('Imagen actualizada correctamente');
+                if (typeof firestoreCache !== 'undefined') firestoreCache.clearAll();
+
+                closeEditModal();
+                loadStats();
+                loadImagesManagement();
+            } catch (error) {
+                console.error('Error al editar:', error);
+                toast.error('Error al guardar: ' + error.message);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = '💾 Guardar cambios';
+            }
+        }
+
+        // Close edit modal on backdrop click
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEditModal();
+        });
 
         // Filtros de búsqueda
         document.getElementById('searchImages').addEventListener('input', filterImages);
